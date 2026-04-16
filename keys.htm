@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Terpstra Keyboard WebApp</title>
+
+	<meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, target-densitydpi=device-dpi">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="author" content="James Fenn">
+	<style>
+	.langsel {
+            display: flex;
+            justify-content: flex-end;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            /* FIX 2: Bring the menu to the very front layer */
+            z-index: 9999;
+        }
+        .langsel select {
+            background-color: #131c21;
+            color: white;
+            border: 1px solid #aaaaaa;
+            border-radius: 4px;
+        }
+        .langsel select:open {
+            border: 1px solid #186ecf;
+        }
+	</style>
+	<style>
+	/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+
+	/**
+	 * 1. Set default font family to sans-serif.
+	 * 2. Prevent iOS text size adjust after orientation change, without disabling
+	 *    user zoom.
+	 */
+
+	html {
+	  font-family: sans-serif; /* 1 */
+	  -ms-text-size-adjust: 100%; /* 2 */
+	  -webkit-text-size-adjust: 100%; /* 2 */
+	}
+
+	/**
+	 * Remove default margin.
+	 */
+
+	body {
+	  margin: 0;
+	}
+
+	/* HTML5 display definitions
+	   ========================================================================== */
+
+	/**
+	 * Correct `block` display not defined for any HTML5 element in IE 8/9.
+	 * Correct `block` display not defined for `details` or `summary` in IE 10/11
+	 * and Firefox.
+	 * Correct `block` display not defined for `main` in IE 11.
+	 */
+
+	article,
+	aside,
+	details,
+	figcaption,
+	figure,
+	footer,
+	header,
+	hgroup,
+	main,
+	menu,
+	nav,
+	section,
+	summary {
+	  display: block;
+	}
+
+	/**
+	 * 1. Correct `inline-block` display not defined in IE 8/9.
+	 * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+	 */
+
+	audio,
+	canvas,
+	progress,
+	video {
+	  display: inline-block; /* 1 */
+	  vertical-align: baseline; /* 2 */
+	}
+
+	/**
+	 * Prevent modern browsers from displaying `audio` without controls.
+	 * Remove excess height in iOS 5 devices.
+	 */
+
+	audio:not([controls]) {
+	  display: none;
+	  height: 0;
+	}
+
+	/**
+	 * Address `[hidden]` styling not present in IE 8/9/10.
+	 * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+	 */
+
+	[hidden],
+	template {
+	  display: none;
+	}
+
+	/* Links
+	   ========================================================================== */
+
+	/**
+	 * Remove the gray background color from active links in IE 10.
+	 */
+
+	a {
+	  background-color: transparent;
+	}
+
+	/**
+	 * Improve readability when focused and also mouse hovered in all browsers.
+	 */
+
+	a:active,
+	a:hover {
+	  outline: 0;
+	}
+
+	/* Text-level semantics
+	   ========================================================================== */
+
+	/**
+	 * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+	 */
+
+	abbr[title] {
+	  border-bottom: 1px dotted;
+	}
+
+	/**
+	 * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+	 */
+
+	b,
+	strong {
+	  font-weight: bold;
+	}
+
+	/**
+	 * Address styling not present in Safari and Chrome.
+	 */
+
+	dfn {
+	  font-style: italic;
+	}
+
+	/**
+	 * Address variable `h1` font-size and margin within `section` and `article`
+	 * contexts in Firefox 4+, Safari, and Chrome.
+	 */
+
+	h1 {
+	  font-size: 2em;
+	  margin: 0.67em 0;
+	}
+
+	/**
+	 * Address styling not present in IE 8/9.
+	 */
+
+	mark {
+	  background: #ff0;
+	  color: #000;
+	}
+
+	/**
+	 * Address inconsistent and variable font size in all browsers.
+	 */
+
+	small {
+	  font-size: 80%;
+	}
+
+	/**
+	 * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+	 */
+
+	sub,
+	sup {
+	  font-size: 75%;
+	  line-height: 0;
+	  position: relative;
+	  vertical-align: baseline;
+	}
+
+	sup {
+	  top: -0.5em;
+	}
+
+	sub {
+	  bottom: -0.25em;
+	}
+
+	/* Embedded content
+	   ========================================================================== */
+
+	/**
+	 * Remove border when inside `a` element in IE 8/9/10.
+	 */
+
+	img {
+	  border: 0;
+	}
+
+	/**
+	 * Correct overflow not hidden in IE 9/10/11.
+	 */
+
+	svg:not(:root) {
+	  overflow: hidden;
+	}
+
+	/* Grouping content
+	   ========================================================================== */
+
+	/**
+	 * Address margin not present in IE 8/9 and Safari.
+	 */
+
+	figure {
+	  margin: 1em 40px;
+	}
+
+	/**
+	 * Address differences between Firefox and other browsers.
+	 */
+
+	hr {
+	  -moz-box-sizing: content-box;
+	  box-sizing: content-box;
+	  height: 0;
+	}
+
+	/**
+	 * Contain overflow in all browsers.
+	 */
+
+	pre {
+	  overflow: auto;
+	}
+
+	/**
+	 * Address odd `em`-unit font size rendering in all browsers.
+	 */
+
+	code,
+	kbd,
+	pre,
+	samp {
+	  font-family: monospace, monospace;
+	  font-size: 1em;
+	}
+
+	/* Forms
+	   ========================================================================== */
+
+	/**
+	 * Known limitation: by default, Chrome and Safari on OS X allow very limited
+	 * styling of `select`, unless a `border` property is set.
+	 */
+
+	/**
+	 * 1. Correct color not being inherited.
+	 *    Known issue: affects color of disabled elements.
+	 * 2. Correct font properties not being inherited.
+	 * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+	 */
+
+	button,
+	input,
+	optgroup,
+	select,
+	textarea {
+	  color: inherit; /* 1 */
+	  font: inherit; /* 2 */
+	  margin: 0; /* 3 */
+	}
+
+	/**
+	 * Address `overflow` set to `hidden` in IE 8/9/10/11.
+	 */
+
+	button {
+	  overflow: visible;
+	}
+
+	/**
+	 * Address inconsistent `text-transform` inheritance for `button` and `select`.
+	 * All other form control elements do not inherit `text-transform` values.
+	 * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+	 * Correct `select` style inheritance in Firefox.
+	 */
+
+	button,
+	select {
+	  text-transform: none;
+	}
+
+	/**
+	 * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+	 *    and `video` controls.
+	 * 2. Correct inability to style clickable `input` types in iOS.
+	 * 3. Improve usability and consistency of cursor style between image-type
+	 *    `input` and others.
+	 */
+
+	button,
+	html input[type="button"], /* 1 */
+	input[type="reset"],
+	input[type="submit"] {
+	  -webkit-appearance: button; /* 2 */
+	  cursor: pointer; /* 3 */
+	}
+
+	/**
+	 * Re-set default cursor for disabled elements.
+	 */
+
+	button[disabled],
+	html input[disabled] {
+	  cursor: default;
+	}
+
+	/**
+	 * Remove inner padding and border in Firefox 4+.
+	 */
+
+	button::-moz-focus-inner,
+	input::-moz-focus-inner {
+	  border: 0;
+	  padding: 0;
+	}
+
+	/**
+	 * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+	 * the UA stylesheet.
+	 */
+
+	input {
+	  line-height: normal;
+	}
+
+	/**
+	 * It's recommended that you don't attempt to style these elements.
+	 * Firefox's implementation doesn't respect box-sizing, padding, or width.
+	 *
+	 * 1. Address box sizing set to `content-box` in IE 8/9/10.
+	 * 2. Remove excess padding in IE 8/9/10.
+	 */
+
+	input[type="checkbox"],
+	input[type="radio"] {
+	  box-sizing: border-box; /* 1 */
+	  padding: 0; /* 2 */
+	}
+
+	/**
+	 * Fix the cursor style for Chrome's increment/decrement buttons. For certain
+	 * `font-size` values of the `input`, it causes the cursor style of the
+	 * decrement button to change from `default` to `text`.
+	 */
+
+	input[type="number"]::-webkit-inner-spin-button,
+	input[type="number"]::-webkit-outer-spin-button {
+	  height: auto;
+	}
+
+	/**
+	 * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
+	 * 2. Address `box-sizing` set to `border-box` in Safari and Chrome
+	 *    (include `-moz` to future-proof).
+	 */
+
+	input[type="search"] {
+	  -webkit-appearance: textfield; /* 1 */
+	  -moz-box-sizing: content-box;
+	  -webkit-box-sizing: content-box; /* 2 */
+	  box-sizing: content-box;
+	}
+
+	/**
+	 * Remove inner padding and search cancel button in Safari and Chrome on OS X.
+	 * Safari (but not Chrome) clips the cancel button when the search input has
+	 * padding (and `textfield` appearance).
+	 */
+
+	input[type="search"]::-webkit-search-cancel-button,
+	input[type="search"]::-webkit-search-decoration {
+	  -webkit-appearance: none;
+	}
+
+	/**
+	 * Define consistent border, margin, and padding.
+	 */
+
+	fieldset {
+	  border: 1px solid #c0c0c0;
+	  margin: 0 2px;
+	  padding: 0.35em 0.625em 0.75em;
+	}
+
+	/**
+	 * 1. Correct `color` not being inherited in IE 8/9/10/11.
+	 * 2. Remove padding so people aren't caught out if they zero out fieldsets.
+	 */
+
+	legend {
+	  border: 0; /* 1 */
+	  padding: 0; /* 2 */
+	}
+
+	/**
+	 * Remove default vertical scrollbar in IE 8/9/10/11.
+	 */
+
+	textarea {
+	  overflow: auto;
+	}
+
+	/**
+	 * Don't inherit the `font-weight` (applied by a rule above).
+	 * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+	 */
+
+	optgroup {
+	  font-weight: bold;
+	}
+
+	/* Tables
+	   ========================================================================== */
+
+	/**
+	 * Remove most spacing between table cells.
+	 */
+
+	table {
+	  border-collapse: collapse;
+	  border-spacing: 0;
+	}
+
+	td,
+	th {
+	  padding: 0;
+	}
+	</style>
+	<style>
+	/*
+* Skeleton V2.0.4
+* Copyright 2014, Dave Gamache
+* www.getskeleton.com
+* Free to use under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+* 12/29/2014
+*/
+
+/*
+* Edited for the Terpstra Keyboard WebApp v. 0.1
+* http://terpstrakeyboard.com/play-it-now/keys.htm
+*/
+
+/* Table of contents
+––––––––––––––––––––––––––––––––––––––––––––––––––
+- Grid
+- Base Styles
+- Typography
+- Links
+- Buttons
+- Forms
+- Lists
+- Code
+- Tables
+- Spacing
+- Utilities
+- Clearing
+- Media Queries
+*/
+
+
+/* Grid
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.container {
+  color: white;
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box; }
+.hdr {
+  color: white; }
+  
+.column,
+.columns {
+  width: 100%;
+  float: left;
+  box-sizing: border-box; }
+
+/* For devices larger than 400px */
+@media (min-width: 400px) {
+  .container {
+    width: 85%;
+    padding: 0; }
+}
+
+/* For devices larger than 550px */
+@media (min-width: 550px) {
+  .container {
+    width: 80%; }
+  .column,
+  .columns {
+    margin-left: 4%; }
+  .column:first-child,
+  .columns:first-child {
+    margin-left: 0; }
+
+  .one.column,
+  .one.columns                    { width: 4.66666666667%; }
+  .two.columns                    { width: 13.3333333333%; }
+  .three.columns                  { width: 22%;            }
+  .four.columns                   { width: 30.6666666667%; }
+  .five.columns                   { width: 39.3333333333%; }
+  .six.columns                    { width: 48%;            }
+  .seven.columns                  { width: 56.6666666667%; }
+  .eight.columns                  { width: 65.3333333333%; }
+  .nine.columns                   { width: 74.0%;          }
+  .ten.columns                    { width: 82.6666666667%; }
+  .eleven.columns                 { width: 91.3333333333%; }
+  .twelve.columns                 { width: 100%; margin-left: 0; }
+
+  .one-third.column               { width: 30.6666666667%; }
+  .two-thirds.column              { width: 65.3333333333%; }
+
+  .one-half.column                { width: 48%; }
+  .one-fourth.column                { width: 24%; }
+
+  /* Offsets */
+  .offset-by-one.column,
+  .offset-by-one.columns          { margin-left: 8.66666666667%; }
+  .offset-by-two.column,
+  .offset-by-two.columns          { margin-left: 17.3333333333%; }
+  .offset-by-three.column,
+  .offset-by-three.columns        { margin-left: 26%;            }
+  .offset-by-four.column,
+  .offset-by-four.columns         { margin-left: 34.6666666667%; }
+  .offset-by-five.column,
+  .offset-by-five.columns         { margin-left: 43.3333333333%; }
+  .offset-by-six.column,
+  .offset-by-six.columns          { margin-left: 52%;            }
+  .offset-by-seven.column,
+  .offset-by-seven.columns        { margin-left: 60.6666666667%; }
+  .offset-by-eight.column,
+  .offset-by-eight.columns        { margin-left: 69.3333333333%; }
+  .offset-by-nine.column,
+  .offset-by-nine.columns         { margin-left: 78.0%;          }
+  .offset-by-ten.column,
+  .offset-by-ten.columns          { margin-left: 86.6666666667%; }
+  .offset-by-eleven.column,
+  .offset-by-eleven.columns       { margin-left: 95.3333333333%; }
+
+  .offset-by-one-third.column,
+  .offset-by-one-third.columns    { margin-left: 34.6666666667%; }
+  .offset-by-two-thirds.column,
+  .offset-by-two-thirds.columns   { margin-left: 69.3333333333%; }
+
+  .offset-by-one-half.column,
+  .offset-by-one-half.columns     { margin-left: 52%; }
+
+}
+
+
+/* Base Styles
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+/* NOTE
+html is set to 62.5% so that all the REM measurements throughout Skeleton
+are based on 10px sizing. So basically 1.5rem = 15px :) */
+html {
+  font-size: 62.5%; }
+body {
+  font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #222; }
+
+
+/* Typography
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 300;
+  text-align:center; }
+h1 { font-size: 4.0rem; line-height: 1.2;  letter-spacing: -.1rem;}
+h2 { font-size: 3.6rem; line-height: 1.25; letter-spacing: -.1rem; }
+h3 { font-size: 3.0rem; line-height: 1.3;  letter-spacing: -.1rem; }
+h4 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
+h5 { font-size: 1.8rem; line-height: 1.5;  letter-spacing: -.05rem; }
+h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
+
+/* Larger than phablet */
+@media (min-width: 550px) {
+  h1 { font-size: 5.0rem; }
+  h2 { font-size: 4.2rem; }
+  h3 { font-size: 3.6rem; }
+  h4 { font-size: 3.0rem; }
+  h5 { font-size: 2.4rem; }
+  h6 { font-size: 1.5rem; }
+}
+
+p {
+  margin-top: 0; }
+
+
+/* Links
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+a {
+  color: #1EAEDB; }
+a:hover {
+  color: #0FA0CE; }
+h2 a {
+  color: white;
+  text-decoration: none; }
+
+/* Buttons
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  display: block;
+  height: 38px;
+  padding: 0 30px;
+  color: #555;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: #fff /*transparent*/;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin-right: auto;
+  margin-left: auto;
+} 
+.button:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+.button:focus,
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+  color: #333;
+  border-color: #888;
+  outline: 0; }
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+  color: #FFF;
+  background-color: #33C3F0;
+  border-color: #33C3F0; }
+.button.button-primary:hover,
+button.button-primary:hover,
+input[type="submit"].button-primary:hover,
+input[type="reset"].button-primary:hover,
+input[type="button"].button-primary:hover,
+.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus,
+input[type="reset"].button-primary:focus,
+input[type="button"].button-primary:focus {
+  color: #FFF;
+  background-color: #1EAEDB;
+  border-color: #1EAEDB; }
+
+
+/* Forms
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea,
+select {
+  height: 38px;
+  padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+  background-color: #fff;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box; }
+/* Removes awkward default styles on some inputs for iOS */
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none; }
+textarea {
+  min-height: 65px;
+  padding-top: 6px;
+  padding-bottom: 6px; }
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  border: 1px solid #33C3F0;
+  outline: 0; }
+label,
+legend {
+  display: block;
+  margin-bottom: .5rem;
+  font-weight: 600; }
+fieldset {
+  padding: 0;
+  border-width: 0; }
+input[type="checkbox"] {
+  display: inline;
+	margin-bottom: 0;}
+input[type="radio"] {
+  display: inline; }
+label > .label-body {
+  display: inline-block;
+  margin-left: .5rem;
+  font-weight: normal; }
+
+
+/* Lists
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+ul {
+  list-style: circle inside; }
+ol {
+  list-style: decimal inside; }
+ol, ul {
+  padding-left: 0;
+  margin-top: 0; }
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin: 1.5rem 0 1.5rem 3rem;
+  font-size: 90%; }
+li {
+  margin-bottom: 1rem; }
+
+
+/* Code
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+code {
+  padding: .2rem .5rem;
+  margin: 0 .2rem;
+  font-size: 90%;
+  white-space: nowrap;
+  background: #F1F1F1;
+  border: 1px solid #E1E1E1;
+  border-radius: 4px; }
+pre > code {
+  display: block;
+  padding: 1rem 1.5rem;
+  white-space: pre; }
+
+
+/* Tables
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #E1E1E1; }
+th:first-child,
+td:first-child {
+  padding-left: 0; }
+th:last-child,
+td:last-child {
+  padding-right: 0; }
+
+
+/* Spacing
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+button,
+.button {
+  margin-bottom: 1rem; }
+input,
+textarea,
+select,
+fieldset {
+  margin-bottom: 1.5rem; }
+pre,
+blockquote,
+dl,
+figure,
+table,
+p,
+ul,
+ol,
+form {
+  margin-bottom: 2.5rem; }
+
+
+/* Utilities
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.u-full-width {
+  width: 100%;
+  box-sizing: border-box; }
+.u-max-full-width {
+  max-width: 100%;
+  box-sizing: border-box; }
+.u-pull-right {
+  float: right; }
+.u-pull-left {
+  float: left; }
+
+
+/* Misc
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+hr {
+  margin-top: 3rem;
+  margin-bottom: 3.5rem;
+  border-width: 0;
+  border-top: 1px solid #E1E1E1; }
+
+
+/* Clearing
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+/* Self Clearing Goodness */
+.container:after,
+.row:after,
+.u-cf {
+  content: "";
+  display: table;
+  clear: both; }
+
+
+/* Media Queries
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+/*
+Note: The best way to structure the use of media queries is to create the queries
+near the relevant code. For example, if you wanted to change the styles for buttons
+on small devices, paste the mobile query code up in the buttons section and style it
+there.
+*/
+
+
+/* Larger than mobile */
+@media (min-width: 400px) {}
+
+/* Larger than phablet (also point when grid becomes active) */
+@media (min-width: 550px) {}
+
+/* Larger than tablet */
+@media (min-width: 750px) {}
+
+/* Larger than desktop */
+@media (min-width: 1000px) {}
+
+/* Larger than Desktop HD */
+@media (min-width: 1200px) {}
+	</style>
+	<style>
+body {
+    /*margin: 0;
+    padding: 0;*/
+    background-color: #000000;
+    color: black;
+	background-image: url(Pattern3D_06.png);
+	background-repeat: repeat;
+	background-position: top left;
+	background-attachment: fixed;
+}
+#fullscreen-setter {
+    background: #1a1a1a;
+    color: white;
+    border-radius: 1em;
+    padding: 1em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer
+}
+#keyboard {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    display: none;
+}
+#backButton {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    display: none;
+    z-index: 100;
+}
+.iosscrollable {
+    height: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.u-half-width {
+  width: 47.5%;
+  box-sizing: border-box; 
+  float: left;
+}
+.rpad{
+    margin-right: 5%;
+}
+select#quicklinks {
+    max-width: 100%;
+}
+.button, button, input[type="submit"], input[type="reset"], input[type="button"],
+input[type="text"], input[type="number"], input[type="email"], input[type="password"],
+textarea, select {
+    background-color: #1a1a1a;
+    color: white;
+    max-width: 100%;
+}
+@media screen and (max-width: 550px) {
+    input[type="number"] {
+        width: 100%;
+    }
+    select#instrument {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 350px) {
+    .button, button, input[type="submit"], input[type="reset"], input[type="button"]
+    {
+        padding: 0 10px;
+    }
+}
+	</style>
+
+	<script>
+		/*
+
+		QueryData.js
+
+		A function to parse data from a query string
+
+		Created by Stephen Morley - http://code.stephenmorley.org/ - and released under
+		the terms of the CC0 1.0 Universal legal code:
+
+		http://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+		*/
+
+		function QueryData(_1,_2){
+		if(_1==undefined){
+		_1=location.search?location.search:"";
+		}
+		if(_1.charAt(0)=="?"){
+		_1=_1.substring(1);
+		}
+		if(_1.length>0){
+		_1=_1.replace(/\+/g," ");
+		var _3=_1.split(/[&;]/g);
+		for(var _4=0;_4<_3.length;_4++){
+		var _5=_3[_4].split("=");
+		var _6=decodeURIComponent(_5[0]);
+		var _7=_5.length>1?decodeURIComponent(_5[1]):"";
+		if(_2){
+		if(!(_6 in this)){
+		this[_6]=[];
+		}
+		this[_6].push(_7);
+		}else{
+		this[_6]=_7;
+		}
+		}
+		}
+		};
+	</script>
+	<script>
+	/**
+	 * jscolor - JavaScript Color Picker
+	 *
+	 * @link    http://jscolor.com
+	 * @license For open source use: GPLv3
+	 *          For commercial use: JSColor Commercial License
+	 * @author  Jan Odvarko
+	 *
+	 * See usage examples at http://jscolor.com/examples/
+	 */"use strict";window.jscolor||(window.jscolor=function(){var e={register:function(){e.attachDOMReadyEvent(e.init),e.attachEvent(document,"mousedown",e.onDocumentMouseDown),e.attachEvent(document,"touchstart",e.onDocumentTouchStart),e.attachEvent(window,"resize",e.onWindowResize)},init:function(){e.jscolor.lookupClass&&e.jscolor.installByClassName(e.jscolor.lookupClass)},tryInstallOnElements:function(t,n){var r=new RegExp("(^|\\s)("+n+")(\\s*(\\{[^}]*\\})|\\s|$)","i");for(var i=0;i<t.length;i+=1){if(t[i].type!==undefined&&t[i].type.toLowerCase()=="color"&&e.isColorAttrSupported)continue;var s;if(!t[i].jscolor&&t[i].className&&(s=t[i].className.match(r))){var o=t[i],u=null,a=e.getDataAttr(o,"jscolor");a!==null?u=a:s[4]&&(u=s[4]);var f={};if(u)try{f=(new Function("return ("+u+")"))()}catch(l){e.warn("Error parsing jscolor options: "+l+":\n"+u)}o.jscolor=new e.jscolor(o,f)}}},isColorAttrSupported:function(){var e=document.createElement("input");if(e.setAttribute){e.setAttribute("type","color");if(e.type.toLowerCase()=="color")return!0}return!1}(),isCanvasSupported:function(){var e=document.createElement("canvas");return!!e.getContext&&!!e.getContext("2d")}(),fetchElement:function(e){return typeof e=="string"?document.getElementById(e):e},isElementType:function(e,t){return e.nodeName.toLowerCase()===t.toLowerCase()},getDataAttr:function(e,t){var n="data-"+t,r=e.getAttribute(n);return r!==null?r:null},attachEvent:function(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent&&e.attachEvent("on"+t,n)},detachEvent:function(e,t,n){e.removeEventListener?e.removeEventListener(t,n,!1):e.detachEvent&&e.detachEvent("on"+t,n)},_attachedGroupEvents:{},attachGroupEvent:function(t,n,r,i){e._attachedGroupEvents.hasOwnProperty(t)||(e._attachedGroupEvents[t]=[]),e._attachedGroupEvents[t].push([n,r,i]),e.attachEvent(n,r,i)},detachGroupEvents:function(t){if(e._attachedGroupEvents.hasOwnProperty(t)){for(var n=0;n<e._attachedGroupEvents[t].length;n+=1){var r=e._attachedGroupEvents[t][n];e.detachEvent(r[0],r[1],r[2])}delete e._attachedGroupEvents[t]}},attachDOMReadyEvent:function(e){var t=!1,n=function(){t||(t=!0,e())};if(document.readyState==="complete"){setTimeout(n,1);return}if(document.addEventListener)document.addEventListener("DOMContentLoaded",n,!1),window.addEventListener("load",n,!1);else if(document.attachEvent){document.attachEvent("onreadystatechange",function(){document.readyState==="complete"&&(document.detachEvent("onreadystatechange",arguments.callee),n())}),window.attachEvent("onload",n);if(document.documentElement.doScroll&&window==window.top){var r=function(){if(!document.body)return;try{document.documentElement.doScroll("left"),n()}catch(e){setTimeout(r,1)}};r()}}},warn:function(e){window.console&&window.console.warn&&window.console.warn(e)},preventDefault:function(e){e.preventDefault&&e.preventDefault(),e.returnValue=!1},captureTarget:function(t){t.setCapture&&(e._capturedTarget=t,e._capturedTarget.setCapture())},releaseTarget:function(){e._capturedTarget&&(e._capturedTarget.releaseCapture(),e._capturedTarget=null)},fireEvent:function(e,t){if(!e)return;if(document.createEvent){var n=document.createEvent("HTMLEvents");n.initEvent(t,!0,!0),e.dispatchEvent(n)}else if(document.createEventObject){var n=document.createEventObject();e.fireEvent("on"+t,n)}else e["on"+t]&&e["on"+t]()},classNameToList:function(e){return e.replace(/^\s+|\s+$/g,"").split(/\s+/)},hasClass:function(e,t){return t?-1!=(" "+e.className.replace(/\s+/g," ")+" ").indexOf(" "+t+" "):!1},setClass:function(t,n){var r=e.classNameToList(n);for(var i=0;i<r.length;i+=1)e.hasClass(t,r[i])||(t.className+=(t.className?" ":"")+r[i])},unsetClass:function(t,n){var r=e.classNameToList(n);for(var i=0;i<r.length;i+=1){var s=new RegExp("^\\s*"+r[i]+"\\s*|"+"\\s*"+r[i]+"\\s*$|"+"\\s+"+r[i]+"(\\s+)","g");t.className=t.className.replace(s,"$1")}},getStyle:function(e){return window.getComputedStyle?window.getComputedStyle(e):e.currentStyle},setStyle:function(){var e=document.createElement("div"),t=function(t){for(var n=0;n<t.length;n+=1)if(t[n]in e.style)return t[n]},n={borderRadius:t(["borderRadius","MozBorderRadius","webkitBorderRadius"]),boxShadow:t(["boxShadow","MozBoxShadow","webkitBoxShadow"])};return function(e,t,r){switch(t.toLowerCase()){case"opacity":var i=Math.round(parseFloat(r)*100);e.style.opacity=r,e.style.filter="alpha(opacity="+i+")";break;default:e.style[n[t]]=r}}}(),setBorderRadius:function(t,n){e.setStyle(t,"borderRadius",n||"0")},setBoxShadow:function(t,n){e.setStyle(t,"boxShadow",n||"none")},getElementPos:function(t,n){var r=0,i=0,s=t.getBoundingClientRect();r=s.left,i=s.top;if(!n){var o=e.getViewPos();r+=o[0],i+=o[1]}return[r,i]},getElementSize:function(e){return[e.offsetWidth,e.offsetHeight]},getAbsPointerPos:function(e){e||(e=window.event);var t=0,n=0;return typeof e.changedTouches!="undefined"&&e.changedTouches.length?(t=e.changedTouches[0].clientX,n=e.changedTouches[0].clientY):typeof e.clientX=="number"&&(t=e.clientX,n=e.clientY),{x:t,y:n}},getRelPointerPos:function(e){e||(e=window.event);var t=e.target||e.srcElement,n=t.getBoundingClientRect(),r=0,i=0,s=0,o=0;return typeof e.changedTouches!="undefined"&&e.changedTouches.length?(s=e.changedTouches[0].clientX,o=e.changedTouches[0].clientY):typeof e.clientX=="number"&&(s=e.clientX,o=e.clientY),r=s-n.left,i=o-n.top,{x:r,y:i}},getViewPos:function(){var e=document.documentElement;return[(window.pageXOffset||e.scrollLeft)-(e.clientLeft||0),(window.pageYOffset||e.scrollTop)-(e.clientTop||0)]},getViewSize:function(){var e=document.documentElement;return[window.innerWidth||e.clientWidth,window.innerHeight||e.clientHeight]},redrawPosition:function(){if(e.picker&&e.picker.owner){var t=e.picker.owner,n,r;t.fixed?(n=e.getElementPos(t.targetElement,!0),r=[0,0]):(n=e.getElementPos(t.targetElement),r=e.getViewPos());var i=e.getElementSize(t.targetElement),s=e.getViewSize(),o=e.getPickerOuterDims(t),u,a,f;switch(t.position.toLowerCase()){case"left":u=1,a=0,f=-1;break;case"right":u=1,a=0,f=1;break;case"top":u=0,a=1,f=-1;break;default:u=0,a=1,f=1}var l=(i[a]+o[a])/2;if(!t.smartPosition)var c=[n[u],n[a]+i[a]-l+l*f];else var c=[-r[u]+n[u]+o[u]>s[u]?-r[u]+n[u]+i[u]/2>s[u]/2&&n[u]+i[u]-o[u]>=0?n[u]+i[u]-o[u]:n[u]:n[u],-r[a]+n[a]+i[a]+o[a]-l+l*f>s[a]?-r[a]+n[a]+i[a]/2>s[a]/2&&n[a]+i[a]-l-l*f>=0?n[a]+i[a]-l-l*f:n[a]+i[a]-l+l*f:n[a]+i[a]-l+l*f>=0?n[a]+i[a]-l+l*f:n[a]+i[a]-l-l*f];var h=c[u],p=c[a],d=t.fixed?"fixed":"absolute",v=(c[0]+o[0]>n[0]||c[0]<n[0]+i[0])&&c[1]+o[1]<n[1]+i[1];e._drawPosition(t,h,p,d,v)}},_drawPosition:function(t,n,r,i,s){var o=s?0:t.shadowBlur;e.picker.wrap.style.position=i,e.picker.wrap.style.left=n+"px",e.picker.wrap.style.top=r+"px",e.setBoxShadow(e.picker.boxS,t.shadow?new e.BoxShadow(0,o,t.shadowBlur,0,t.shadowColor):null)},getPickerDims:function(t){var n=!!e.getSliderComponent(t),r=[2*t.insetWidth+2*t.padding+t.width+(n?2*t.insetWidth+e.getPadToSliderPadding(t)+t.sliderSize:0),2*t.insetWidth+2*t.padding+t.height+(t.closable?2*t.insetWidth+t.padding+t.buttonHeight:0)];return r},getPickerOuterDims:function(t){var n=e.getPickerDims(t);return[n[0]+2*t.borderWidth,n[1]+2*t.borderWidth]},getPadToSliderPadding:function(e){return Math.max(e.padding,1.5*(2*e.pointerBorderWidth+e.pointerThickness))},getPadYComponent:function(e){switch(e.mode.charAt(1).toLowerCase()){case"v":return"v"}return"s"},getSliderComponent:function(e){if(e.mode.length>2)switch(e.mode.charAt(2).toLowerCase()){case"s":return"s";case"v":return"v"}return null},onDocumentMouseDown:function(t){t||(t=window.event);var n=t.target||t.srcElement;n._jscLinkedInstance?n._jscLinkedInstance.showOnClick&&n._jscLinkedInstance.show():n._jscControlName?e.onControlPointerStart(t,n,n._jscControlName,"mouse"):e.picker&&e.picker.owner&&e.picker.owner.hide()},onDocumentTouchStart:function(t){t||(t=window.event);var n=t.target||t.srcElement;n._jscLinkedInstance?n._jscLinkedInstance.showOnClick&&n._jscLinkedInstance.show():n._jscControlName?e.onControlPointerStart(t,n,n._jscControlName,"touch"):e.picker&&e.picker.owner&&e.picker.owner.hide()},onWindowResize:function(t){e.redrawPosition()},onParentScroll:function(t){e.picker&&e.picker.owner&&e.picker.owner.hide()},_pointerMoveEvent:{mouse:"mousemove",touch:"touchmove"},_pointerEndEvent:{mouse:"mouseup",touch:"touchend"},_pointerOrigin:null,_capturedTarget:null,onControlPointerStart:function(t,n,r,i){var s=n._jscInstance;e.preventDefault(t),e.captureTarget(n);var o=function(s,o){e.attachGroupEvent("drag",s,e._pointerMoveEvent[i],e.onDocumentPointerMove(t,n,r,i,o)),e.attachGroupEvent("drag",s,e._pointerEndEvent[i],e.onDocumentPointerEnd(t,n,r,i))};o(document,[0,0]);if(window.parent&&window.frameElement){var u=window.frameElement.getBoundingClientRect(),a=[-u.left,-u.top];o(window.parent.window.document,a)}var f=e.getAbsPointerPos(t),l=e.getRelPointerPos(t);e._pointerOrigin={x:f.x-l.x,y:f.y-l.y};switch(r){case"pad":switch(e.getSliderComponent(s)){case"s":s.hsv[1]===0&&s.fromHSV(null,100,null);break;case"v":s.hsv[2]===0&&s.fromHSV(null,null,100)}e.setPad(s,t,0,0);break;case"sld":e.setSld(s,t,0)}e.dispatchFineChange(s)},onDocumentPointerMove:function(t,n,r,i,s){return function(t){var i=n._jscInstance;switch(r){case"pad":t||(t=window.event),e.setPad(i,t,s[0],s[1]),e.dispatchFineChange(i);break;case"sld":t||(t=window.event),e.setSld(i,t,s[1]),e.dispatchFineChange(i)}}},onDocumentPointerEnd:function(t,n,r,i){return function(t){var r=n._jscInstance;e.detachGroupEvents("drag"),e.releaseTarget(),e.dispatchChange(r)}},dispatchChange:function(t){t.valueElement&&e.isElementType(t.valueElement,"input")&&e.fireEvent(t.valueElement,"change")},dispatchFineChange:function(e){if(e.onFineChange){var t;typeof e.onFineChange=="string"?t=new Function(e.onFineChange):t=e.onFineChange,t.call(e)}},setPad:function(t,n,r,i){var s=e.getAbsPointerPos(n),o=r+s.x-e._pointerOrigin.x-t.padding-t.insetWidth,u=i+s.y-e._pointerOrigin.y-t.padding-t.insetWidth,a=o*(360/(t.width-1)),f=100-u*(100/(t.height-1));switch(e.getPadYComponent(t)){case"s":t.fromHSV(a,f,null,e.leaveSld);break;case"v":t.fromHSV(a,null,f,e.leaveSld)}},setSld:function(t,n,r){var i=e.getAbsPointerPos(n),s=r+i.y-e._pointerOrigin.y-t.padding-t.insetWidth,o=100-s*(100/(t.height-1));switch(e.getSliderComponent(t)){case"s":t.fromHSV(null,o,null,e.leavePad);break;case"v":t.fromHSV(null,null,o,e.leavePad)}},_vmlNS:"jsc_vml_",_vmlCSS:"jsc_vml_css_",_vmlReady:!1,initVML:function(){if(!e._vmlReady){var t=document;t.namespaces[e._vmlNS]||t.namespaces.add(e._vmlNS,"urn:schemas-microsoft-com:vml");if(!t.styleSheets[e._vmlCSS]){var n=["shape","shapetype","group","background","path","formulas","handles","fill","stroke","shadow","textbox","textpath","imagedata","line","polyline","curve","rect","roundrect","oval","arc","image"],r=t.createStyleSheet();r.owningElement.id=e._vmlCSS;for(var i=0;i<n.length;i+=1)r.addRule(e._vmlNS+"\\:"+n[i],"behavior:url(#default#VML);")}e._vmlReady=!0}},createPalette:function(){var t={elm:null,draw:null};if(e.isCanvasSupported){var n=document.createElement("canvas"),r=n.getContext("2d"),i=function(e,t,i){n.width=e,n.height=t,r.clearRect(0,0,n.width,n.height);var s=r.createLinearGradient(0,0,n.width,0);s.addColorStop(0,"#F00"),s.addColorStop(1/6,"#FF0"),s.addColorStop(2/6,"#0F0"),s.addColorStop(.5,"#0FF"),s.addColorStop(4/6,"#00F"),s.addColorStop(5/6,"#F0F"),s.addColorStop(1,"#F00"),r.fillStyle=s,r.fillRect(0,0,n.width,n.height);var o=r.createLinearGradient(0,0,0,n.height);switch(i.toLowerCase()){case"s":o.addColorStop(0,"rgba(255,255,255,0)"),o.addColorStop(1,"rgba(255,255,255,1)");break;case"v":o.addColorStop(0,"rgba(0,0,0,0)"),o.addColorStop(1,"rgba(0,0,0,1)")}r.fillStyle=o,r.fillRect(0,0,n.width,n.height)};t.elm=n,t.draw=i}else{e.initVML();var s=document.createElement("div");s.style.position="relative",s.style.overflow="hidden";var o=document.createElement(e._vmlNS+":fill");o.type="gradient",o.method="linear",o.angle="90",o.colors="16.67% #F0F, 33.33% #00F, 50% #0FF, 66.67% #0F0, 83.33% #FF0";var u=document.createElement(e._vmlNS+":rect");u.style.position="absolute",u.style.left="-1px",u.style.top="-1px",u.stroked=!1,u.appendChild(o),s.appendChild(u);var a=document.createElement(e._vmlNS+":fill");a.type="gradient",a.method="linear",a.angle="180",a.opacity="0";var f=document.createElement(e._vmlNS+":rect");f.style.position="absolute",f.style.left="-1px",f.style.top="-1px",f.stroked=!1,f.appendChild(a),s.appendChild(f);var i=function(e,t,n){s.style.width=e+"px",s.style.height=t+"px",u.style.width=f.style.width=e+1+"px",u.style.height=f.style.height=t+1+"px",o.color="#F00",o.color2="#F00";switch(n.toLowerCase()){case"s":a.color=a.color2="#FFF";break;case"v":a.color=a.color2="#000"}};t.elm=s,t.draw=i}return t},createSliderGradient:function(){var t={elm:null,draw:null};if(e.isCanvasSupported){var n=document.createElement("canvas"),r=n.getContext("2d"),i=function(e,t,i,s){n.width=e,n.height=t,r.clearRect(0,0,n.width,n.height);var o=r.createLinearGradient(0,0,0,n.height);o.addColorStop(0,i),o.addColorStop(1,s),r.fillStyle=o,r.fillRect(0,0,n.width,n.height)};t.elm=n,t.draw=i}else{e.initVML();var s=document.createElement("div");s.style.position="relative",s.style.overflow="hidden";var o=document.createElement(e._vmlNS+":fill");o.type="gradient",o.method="linear",o.angle="180";var u=document.createElement(e._vmlNS+":rect");u.style.position="absolute",u.style.left="-1px",u.style.top="-1px",u.stroked=!1,u.appendChild(o),s.appendChild(u);var i=function(e,t,n,r){s.style.width=e+"px",s.style.height=t+"px",u.style.width=e+1+"px",u.style.height=t+1+"px",o.color=n,o.color2=r};t.elm=s,t.draw=i}return t},leaveValue:1,leaveStyle:2,leavePad:4,leaveSld:8,BoxShadow:function(){var e=function(e,t,n,r,i,s){this.hShadow=e,this.vShadow=t,this.blur=n,this.spread=r,this.color=i,this.inset=!!s};return e.prototype.toString=function(){var e=[Math.round(this.hShadow)+"px",Math.round(this.vShadow)+"px",Math.round(this.blur)+"px",Math.round(this.spread)+"px",this.color];return this.inset&&e.push("inset"),e.join(" ")},e}(),jscolor:function(t,n){function i(e,t,n){e/=255,t/=255,n/=255;var r=Math.min(Math.min(e,t),n),i=Math.max(Math.max(e,t),n),s=i-r;if(s===0)return[null,0,100*i];var o=e===r?3+(n-t)/s:t===r?5+(e-n)/s:1+(t-e)/s;return[60*(o===6?0:o),100*(s/i),100*i]}function s(e,t,n){var r=255*(n/100);if(e===null)return[r,r,r];e/=60,t/=100;var i=Math.floor(e),s=i%2?e-i:1-(e-i),o=r*(1-t),u=r*(1-t*s);switch(i){case 6:case 0:return[r,u,o];case 1:return[u,r,o];case 2:return[o,r,u];case 3:return[o,u,r];case 4:return[u,o,r];case 5:return[r,o,u]}}function o(){e.unsetClass(d.targetElement,d.activeClass),e.picker.wrap.parentNode.removeChild(e.picker.wrap),delete e.picker.owner}function u(){function l(){var e=d.insetColor.split(/\s+/),n=e.length<2?e[0]:e[1]+" "+e[0]+" "+e[0]+" "+e[1];t.btn.style.borderColor=n}d._processParentElementsInDOM(),e.picker||(e.picker={owner:null,wrap:document.createElement("div"),box:document.createElement("div"),boxS:document.createElement("div"),boxB:document.createElement("div"),pad:document.createElement("div"),padB:document.createElement("div"),padM:document.createElement("div"),padPal:e.createPalette(),cross:document.createElement("div"),crossBY:document.createElement("div"),crossBX:document.createElement("div"),crossLY:document.createElement("div"),crossLX:document.createElement("div"),sld:document.createElement("div"),sldB:document.createElement("div"),sldM:document.createElement("div"),sldGrad:e.createSliderGradient(),sldPtrS:document.createElement("div"),sldPtrIB:document.createElement("div"),sldPtrMB:document.createElement("div"),sldPtrOB:document.createElement("div"),btn:document.createElement("div"),btnT:document.createElement("span")},e.picker.pad.appendChild(e.picker.padPal.elm),e.picker.padB.appendChild(e.picker.pad),e.picker.cross.appendChild(e.picker.crossBY),e.picker.cross.appendChild(e.picker.crossBX),e.picker.cross.appendChild(e.picker.crossLY),e.picker.cross.appendChild(e.picker.crossLX),e.picker.padB.appendChild(e.picker.cross),e.picker.box.appendChild(e.picker.padB),e.picker.box.appendChild(e.picker.padM),e.picker.sld.appendChild(e.picker.sldGrad.elm),e.picker.sldB.appendChild(e.picker.sld),e.picker.sldB.appendChild(e.picker.sldPtrOB),e.picker.sldPtrOB.appendChild(e.picker.sldPtrMB),e.picker.sldPtrMB.appendChild(e.picker.sldPtrIB),e.picker.sldPtrIB.appendChild(e.picker.sldPtrS),e.picker.box.appendChild(e.picker.sldB),e.picker.box.appendChild(e.picker.sldM),e.picker.btn.appendChild(e.picker.btnT),e.picker.box.appendChild(e.picker.btn),e.picker.boxB.appendChild(e.picker.box),e.picker.wrap.appendChild(e.picker.boxS),e.picker.wrap.appendChild(e.picker.boxB));var t=e.picker,n=!!e.getSliderComponent(d),r=e.getPickerDims(d),i=2*d.pointerBorderWidth+d.pointerThickness+2*d.crossSize,s=e.getPadToSliderPadding(d),o=Math.min(d.borderRadius,Math.round(d.padding*Math.PI)),u="crosshair";t.wrap.style.clear="both",t.wrap.style.width=r[0]+2*d.borderWidth+"px",t.wrap.style.height=r[1]+2*d.borderWidth+"px",t.wrap.style.zIndex=d.zIndex,t.box.style.width=r[0]+"px",t.box.style.height=r[1]+"px",t.boxS.style.position="absolute",t.boxS.style.left="0",t.boxS.style.top="0",t.boxS.style.width="100%",t.boxS.style.height="100%",e.setBorderRadius(t.boxS,o+"px"),t.boxB.style.position="relative",t.boxB.style.border=d.borderWidth+"px solid",t.boxB.style.borderColor=d.borderColor,t.boxB.style.background=d.backgroundColor,e.setBorderRadius(t.boxB,o+"px"),t.padM.style.background=t.sldM.style.background="#FFF",e.setStyle(t.padM,"opacity","0"),e.setStyle(t.sldM,"opacity","0"),t.pad.style.position="relative",t.pad.style.width=d.width+"px",t.pad.style.height=d.height+"px",t.padPal.draw(d.width,d.height,e.getPadYComponent(d)),t.padB.style.position="absolute",t.padB.style.left=d.padding+"px",t.padB.style.top=d.padding+"px",t.padB.style.border=d.insetWidth+"px solid",t.padB.style.borderColor=d.insetColor,t.padM._jscInstance=d,t.padM._jscControlName="pad",t.padM.style.position="absolute",t.padM.style.left="0",t.padM.style.top="0",t.padM.style.width=d.padding+2*d.insetWidth+d.width+s/2+"px",t.padM.style.height=r[1]+"px",t.padM.style.cursor=u,t.cross.style.position="absolute",t.cross.style.left=t.cross.style.top="0",t.cross.style.width=t.cross.style.height=i+"px",t.crossBY.style.position=t.crossBX.style.position="absolute",t.crossBY.style.background=t.crossBX.style.background=d.pointerBorderColor,t.crossBY.style.width=t.crossBX.style.height=2*d.pointerBorderWidth+d.pointerThickness+"px",t.crossBY.style.height=t.crossBX.style.width=i+"px",t.crossBY.style.left=t.crossBX.style.top=Math.floor(i/2)-Math.floor(d.pointerThickness/2)-d.pointerBorderWidth+"px",t.crossBY.style.top=t.crossBX.style.left="0",t.crossLY.style.position=t.crossLX.style.position="absolute",t.crossLY.style.background=t.crossLX.style.background=d.pointerColor,t.crossLY.style.height=t.crossLX.style.width=i-2*d.pointerBorderWidth+"px",t.crossLY.style.width=t.crossLX.style.height=d.pointerThickness+"px",t.crossLY.style.left=t.crossLX.style.top=Math.floor(i/2)-Math.floor(d.pointerThickness/2)+"px",t.crossLY.style.top=t.crossLX.style.left=d.pointerBorderWidth+"px",t.sld.style.overflow="hidden",t.sld.style.width=d.sliderSize+"px",t.sld.style.height=d.height+"px",t.sldGrad.draw(d.sliderSize,d.height,"#000","#000"),t.sldB.style.display=n?"block":"none",t.sldB.style.position="absolute",t.sldB.style.right=d.padding+"px",t.sldB.style.top=d.padding+"px",t.sldB.style.border=d.insetWidth+"px solid",t.sldB.style.borderColor=d.insetColor,t.sldM._jscInstance=d,t.sldM._jscControlName="sld",t.sldM.style.display=n?"block":"none",t.sldM.style.position="absolute",t.sldM.style.right="0",t.sldM.style.top="0",t.sldM.style.width=d.sliderSize+s/2+d.padding+2*d.insetWidth+"px",t.sldM.style.height=r[1]+"px",t.sldM.style.cursor="default",t.sldPtrIB.style.border=t.sldPtrOB.style.border=d.pointerBorderWidth+"px solid "+d.pointerBorderColor,t.sldPtrOB.style.position="absolute",t.sldPtrOB.style.left=-(2*d.pointerBorderWidth+d.pointerThickness)+"px",t.sldPtrOB.style.top="0",t.sldPtrMB.style.border=d.pointerThickness+"px solid "+d.pointerColor,t.sldPtrS.style.width=d.sliderSize+"px",t.sldPtrS.style.height=m+"px",t.btn.style.display=d.closable?"block":"none",t.btn.style.position="absolute",t.btn.style.left=d.padding+"px",t.btn.style.bottom=d.padding+"px",t.btn.style.padding="0 15px",t.btn.style.height=d.buttonHeight+"px",t.btn.style.border=d.insetWidth+"px solid",l(),t.btn.style.color=d.buttonColor,t.btn.style.font="12px sans-serif",t.btn.style.textAlign="center";try{t.btn.style.cursor="pointer"}catch(c){t.btn.style.cursor="hand"}t.btn.onmousedown=function(){d.hide()},t.btnT.style.lineHeight=d.buttonHeight+"px",t.btnT.innerHTML="",t.btnT.appendChild(document.createTextNode(d.closeText)),a(),f(),e.picker.owner&&e.picker.owner!==d&&e.unsetClass(e.picker.owner.targetElement,d.activeClass),e.picker.owner=d,e.isElementType(v,"body")?e.redrawPosition():e._drawPosition(d,0,0,"relative",!1),t.wrap.parentNode!=v&&v.appendChild(t.wrap),e.setClass(d.targetElement,d.activeClass)}function a(){switch(e.getPadYComponent(d)){case"s":var t=1;break;case"v":var t=2}var n=Math.round(d.hsv[0]/360*(d.width-1)),r=Math.round((1-d.hsv[t]/100)*(d.height-1)),i=2*d.pointerBorderWidth+d.pointerThickness+2*d.crossSize,o=-Math.floor(i/2);e.picker.cross.style.left=n+o+"px",e.picker.cross.style.top=r+o+"px";switch(e.getSliderComponent(d)){case"s":var u=s(d.hsv[0],100,d.hsv[2]),a=s(d.hsv[0],0,d.hsv[2]),f="rgb("+Math.round(u[0])+","+Math.round(u[1])+","+Math.round(u[2])+")",l="rgb("+Math.round(a[0])+","+Math.round(a[1])+","+Math.round(a[2])+")";e.picker.sldGrad.draw(d.sliderSize,d.height,f,l);break;case"v":var c=s(d.hsv[0],d.hsv[1],100),f="rgb("+Math.round(c[0])+","+Math.round(c[1])+","+Math.round(c[2])+")",l="#000";e.picker.sldGrad.draw(d.sliderSize,d.height,f,l)}}function f(){var t=e.getSliderComponent(d);if(t){switch(t){case"s":var n=1;break;case"v":var n=2}var r=Math.round((1-d.hsv[n]/100)*(d.height-1));e.picker.sldPtrOB.style.top=r-(2*d.pointerBorderWidth+d.pointerThickness)-Math.floor(m/2)+"px"}}function l(){return e.picker&&e.picker.owner===d}function c(){d.importColor()}this.value=null,this.valueElement=t,this.styleElement=t,this.required=!0,this.refine=!0,this.hash=!1,this.uppercase=!0,this.onFineChange=null,this.activeClass="jscolor-active",this.minS=0,this.maxS=100,this.minV=0,this.maxV=100,this.hsv=[0,0,100],this.rgb=[255,255,255],this.width=181,this.height=101,this.showOnClick=!0,this.mode="HSV",this.position="bottom",this.smartPosition=!0,this.sliderSize=16,this.crossSize=8,this.closable=!1,this.closeText="Close",this.buttonColor="#000000",this.buttonHeight=18,this.padding=12,this.backgroundColor="#FFFFFF",this.borderWidth=1,this.borderColor="#BBBBBB",this.borderRadius=8,this.insetWidth=1,this.insetColor="#BBBBBB",this.shadow=!0,this.shadowBlur=15,this.shadowColor="rgba(0,0,0,0.2)",this.pointerColor="#4C4C4C",this.pointerBorderColor="#FFFFFF",this.pointerBorderWidth=1,this.pointerThickness=2,this.zIndex=1e3,this.container=null;for(var r in n)n.hasOwnProperty(r)&&(this[r]=n[r]);this.hide=function(){l()&&o()},this.show=function(){u()},this.redraw=function(){l()&&u()},this.importColor=function(){this.valueElement?e.isElementType(this.valueElement,"input")?this.refine?!this.required&&/^\s*$/.test(this.valueElement.value)?(this.valueElement.value="",this.styleElement&&(this.styleElement.style.backgroundImage=this.styleElement._jscOrigStyle.backgroundImage,this.styleElement.style.backgroundColor=this.styleElement._jscOrigStyle.backgroundColor,this.styleElement.style.color=this.styleElement._jscOrigStyle.color),this.exportColor(e.leaveValue|e.leaveStyle)):this.fromString(this.valueElement.value)||this.exportColor():this.fromString(this.valueElement.value,e.leaveValue)||(this.styleElement&&(this.styleElement.style.backgroundImage=this.styleElement._jscOrigStyle.backgroundImage,this.styleElement.style.backgroundColor=this.styleElement._jscOrigStyle.backgroundColor,this.styleElement.style.color=this.styleElement._jscOrigStyle.color),this.exportColor(e.leaveValue|e.leaveStyle)):this.exportColor():this.exportColor()},this.exportColor=function(t){if(!(t&e.leaveValue)&&this.valueElement){var n=this.toString();this.uppercase&&(n=n.toUpperCase()),this.hash&&(n="#"+n),e.isElementType(this.valueElement,"input")?this.valueElement.value=n:this.valueElement.innerHTML=n}t&e.leaveStyle||this.styleElement&&(this.styleElement.style.backgroundImage="none",this.styleElement.style.backgroundColor="#"+this.toString(),this.styleElement.style.color=this.isLight()?"#000":"#FFF"),!(t&e.leavePad)&&l()&&a(),!(t&e.leaveSld)&&l()&&f()},this.fromHSV=function(e,t,n,r){if(e!==null){if(isNaN(e))return!1;e=Math.max(0,Math.min(360,e))}if(t!==null){if(isNaN(t))return!1;t=Math.max(0,Math.min(100,this.maxS,t),this.minS)}if(n!==null){if(isNaN(n))return!1;n=Math.max(0,Math.min(100,this.maxV,n),this.minV)}this.rgb=s(e===null?this.hsv[0]:this.hsv[0]=e,t===null?this.hsv[1]:this.hsv[1]=t,n===null?this.hsv[2]:this.hsv[2]=n),this.exportColor(r)},this.fromRGB=function(e,t,n,r){if(e!==null){if(isNaN(e))return!1;e=Math.max(0,Math.min(255,e))}if(t!==null){if(isNaN(t))return!1;t=Math.max(0,Math.min(255,t))}if(n!==null){if(isNaN(n))return!1;n=Math.max(0,Math.min(255,n))}var o=i(e===null?this.rgb[0]:e,t===null?this.rgb[1]:t,n===null?this.rgb[2]:n);o[0]!==null&&(this.hsv[0]=Math.max(0,Math.min(360,o[0]))),o[2]!==0&&(this.hsv[1]=o[1]===null?null:Math.max(0,this.minS,Math.min(100,this.maxS,o[1]))),this.hsv[2]=o[2]===null?null:Math.max(0,this.minV,Math.min(100,this.maxV,o[2]));var u=s(this.hsv[0],this.hsv[1],this.hsv[2]);this.rgb[0]=u[0],this.rgb[1]=u[1],this.rgb[2]=u[2],this.exportColor(r)},this.fromString=function(e,t){var n;if(n=e.match(/^\W*([0-9A-F]{3}([0-9A-F]{3})?)\W*$/i))return n[1].length===6?this.fromRGB(parseInt(n[1].substr(0,2),16),parseInt(n[1].substr(2,2),16),parseInt(n[1].substr(4,2),16),t):this.fromRGB(parseInt(n[1].charAt(0)+n[1].charAt(0),16),parseInt(n[1].charAt(1)+n[1].charAt(1),16),parseInt(n[1].charAt(2)+n[1].charAt(2),16),t),!0;if(n=e.match(/^\W*rgba?\(([^)]*)\)\W*$/i)){var r=n[1].split(","),i=/^\s*(\d*)(\.\d+)?\s*$/,s,o,u;if(r.length>=3&&(s=r[0].match(i))&&(o=r[1].match(i))&&(u=r[2].match(i))){var a=parseFloat((s[1]||"0")+(s[2]||"")),f=parseFloat((o[1]||"0")+(o[2]||"")),l=parseFloat((u[1]||"0")+(u[2]||""));return this.fromRGB(a,f,l,t),!0}}return!1},this.toString=function(){return(256|Math.round(this.rgb[0])).toString(16).substr(1)+(256|Math.round(this.rgb[1])).toString(16).substr(1)+(256|Math.round(this.rgb[2])).toString(16).substr(1)},this.toHEXString=function(){return"#"+this.toString().toUpperCase()},this.toRGBString=function(){return"rgb("+Math.round(this.rgb[0])+","+Math.round(this.rgb[1])+","+Math.round(this.rgb[2])+")"},this.isLight=function(){return.213*this.rgb[0]+.715*this.rgb[1]+.072*this.rgb[2]>127.5},this._processParentElementsInDOM=function(){if(this._linkedElementsProcessed)return;this._linkedElementsProcessed=!0;var t=this.targetElement;do{var n=e.getStyle(t);n&&n.position.toLowerCase()==="fixed"&&(this.fixed=!0),t!==this.targetElement&&(t._jscEventsAttached||(e.attachEvent(t,"scroll",e.onParentScroll),t._jscEventsAttached=!0))}while((t=t.parentNode)&&!e.isElementType(t,"body"))};if(typeof t=="string"){var h=t,p=document.getElementById(h);p?this.targetElement=p:e.warn("Could not find target element with ID '"+h+"'")}else t?this.targetElement=t:e.warn("Invalid target element: '"+t+"'");if(this.targetElement._jscLinkedInstance){e.warn("Cannot link jscolor twice to the same element. Skipping.");return}this.targetElement._jscLinkedInstance=this,this.valueElement=e.fetchElement(this.valueElement),this.styleElement=e.fetchElement(this.styleElement);var d=this,v=this.container?e.fetchElement(this.container):document.getElementsByTagName("body")[0],m=3;if(e.isElementType(this.targetElement,"button"))if(this.targetElement.onclick){var g=this.targetElement.onclick;this.targetElement.onclick=function(e){return g.call(this,e),!1}}else this.targetElement.onclick=function(){return!1};if(this.valueElement&&e.isElementType(this.valueElement,"input")){var y=function(){d.fromString(d.valueElement.value,e.leaveValue),e.dispatchFineChange(d)};e.attachEvent(this.valueElement,"keyup",y),e.attachEvent(this.valueElement,"input",y),e.attachEvent(this.valueElement,"blur",c),this.valueElement.setAttribute("autocomplete","off")}this.styleElement&&(this.styleElement._jscOrigStyle={backgroundImage:this.styleElement.style.backgroundImage,backgroundColor:this.styleElement.style.backgroundColor,color:this.styleElement.style.color}),this.value?this.fromString(this.value)||this.exportColor():this.importColor()}};return e.jscolor.lookupClass="jscolor",e.jscolor.installByClassName=function(t){var n=document.getElementsByTagName("input"),r=document.getElementsByTagName("button");e.tryInstallOnElements(n,t),e.tryInstallOnElements(r,t)},e.register(),e.jscolor}());
+	</script>
+</head>
+
+<body style="overflow: scroll;">
+
+	<div id="landing-page" class="section" style="display: block;">
+		<div class="container">
+		  <h2><a href="http://terpstrakeyboard.com/">Terpstra Keyboard</a> <a href="http://terpstrakeyboard.com/play-it-now/">WebApp</a></h2>
+		  <div class="row">
+              <img alt="" src="1x1.png">
+          </div>
+
+			<form id="settingsForm">
+				<div class="row">
+					<div class="one-half column thincol-parent">
+						<div class="u-half-width rpad">
+
+                          <label>Tuning\Layout Quick Links</label>
+                          <select id="quicklinks" onchange="javascript:location.href = this.value;" class="u-full-width">
+
+                              <option selected="selected" disabled="disabled">Choose Preset</option>
+                              <optgroup label="Isomorphic Layouts for 12-ET">
+                                  <option value="?fundamental=261.6255653&right=2&upright=1&size=50&rotation=343.897886248&instrument=piano&enum=false&equivSteps=12&piano_colors=true&spectrum_colors=false&no_labels=false&scale=!%2012-ed2%20Jank%C3%B3%206-6%20Balanced%20Symmetric%20Bilinear%20Uniform%20Keyboard%20~Halberstadt.scl%0A!%2012-tone%20equal%20tempered%20scale%20consisting%20of%2012%20sonically%20equal%20divisions%20per%20frequency%20halving%2Fdoubling%2C%20mapped%20on%20a%20(hexagonal)%20tilted%20Jank%C3%B3%20layout%20which%20can%20be%20regarded%20as%20a%20stacked%206-6%2FBalanced%2FSymmetric%2FBilinear%2FUniform%20Keyboard%2C%20and%20which%20approximates%20the%207-white%2F5-black%20Halberstadt%20organ%20layout%20(the%20classic%20piano%20keyboard).%0A!%0ATerpstra%20Keyboard%20WebApp%20%7C%2012-ed2%20Jank%C3%B3%20%2F%206-6%2FBalanced%2FSymmetric%2FBilinear%2FUniform%20Keyboard%20%2F%20~Halberstadt%0A12%0A!%0A100.00000%0A200.00000%0A300.00000%0A400.00000%0A500.00000%0A600.00000%0A700.00000%0A800.00000%0A900.00000%0A1000.00000%0A1100.00000%0A1200.00000&names=C%0AD%E2%99%AD%2FC%E2%99%AF%0AD%0AE%E2%99%AD%2FD%E2%99%AF%0AE%0AF%0AG%E2%99%AD%2FF%E2%99%AF%0AG%0AA%E2%99%AD%2FG%E2%99%AF%0AA%0AB%E2%99%AD%2FA%E2%99%AF%0AB&note_colors=ffffff%0A7b7b7b%0Affffff%0A7b7b7b%0Affffff%0Affffff%0A7b7b7b%0Affffff%0A7b7b7b%0Affffff%0A7b7b7b%0Affffff">Jankó / 6-6/Balanced/Symmetric/Bilinear/Uniform</option>
+
+                                  <option value="?fundamental=261.6255653&right=4&upright=7&size=50&rotation=343.897886248&instrument=harpsichord&enum=false&equivSteps=12&piano_colors=true&spectrum_colors=false&no_labels=false&scale=!%2012-ed2%20Harmonic%20Table%20Sonome%20Tonnetz%205-Limit%20Tuning%20Lattice%20Tri-Axial%20Matrix%20Model%20(of%20Musical%20Harmony).scl%0A!%2012-tone%20equal%20tempered%20scale%20consisting%20of%2012%20sonically%20equal%20divisions%20per%20frequency%20halving%2Fdoubling%2C%20mapped%20on%20the%20Harmonic%20Table%20layout%2C%20also%20known%20as%20Sonome%3A%20a%20tonal%20array%20topologically%20equivalent%20to%20Euler%27s%20Tonnetz%2C%20which%20is%20a%20conceptual%20lattice%20diagram%20representing%20tonal%20space%2C%20also%20known%20as%205-Limit%20Tuning%20Lattice%20or%20Tri-Axial%20Matrix%20Model%20(of%20Musical%20Harmony).%0A!%0ATerpstra%20Keyboard%20WebApp%20%7C%2012-ed2%20Harmonic%20Table%20%2F%20Sonome%20%2F%20Tonnetz%20%2F%205-Limit%20Tuning%20Lattice%20%2F%20Tri-Axial%20Matrix%20Model%20(of%20Musical%20Harmony)%0A12%0A!%0A100.00000%0A200.00000%0A300.00000%0A400.00000%0A500.00000%0A600.00000%0A700.00000%0A800.00000%0A900.00000%0A1000.00000%0A1100.00000%0A1200.00000&names=C%0AD%E2%99%AD%2FC%E2%99%AF%0AD%0AE%E2%99%AD%2FD%E2%99%AF%0AE%0AF%0AG%E2%99%AD%2FF%E2%99%AF%0AG%0AA%E2%99%AD%2FG%E2%99%AF%0AA%0AB%E2%99%AD%2FA%E2%99%AF%0AB&note_colors=ffffff%0Abababa%0A8ef4fb%0Abababa%0Affffff%0Affffff%0Abababa%0Affffff%0A49aded%0Affffff%0Abababa%0Affffff">Harmonic Table / Sonome / Tonnetz / 5-L Lattice / Matrix Model</option>
+
+                                  <option value="?fundamental=261.6255653&right=2&upright=7&size=50&rotation=343.897886248&instrument=rhodes&enum=false&equivSteps=12&piano_colors=true&spectrum_colors=false&no_labels=false&scale=!%2012-ed2%20Wicki-Hayden.scl%0A!%2012-tone%20equal%20tempered%20scale%20consisting%20of%2012%20sonically%20equal%20divisions%20per%20frequency%20halving%2Fdoubling%2C%20mapped%20on%20the%20Wicki-Hayden%20layout%2C%20originally%20devised%20for%20the%20bandoneon%20and%20concertina%20(free-reed%20aerophones%20of%20the%20harmonica%2Faccordion%20family).%0A!%0ATerpstra%20Keyboard%20WebApp%20%7C%2012-ed2%20Wicki-Hayden%0A12%0A!%0A100.00000%0A200.00000%0A300.00000%0A400.00000%0A500.00000%0A600.00000%0A700.00000%0A800.00000%0A900.00000%0A1000.00000%0A1100.00000%0A1200.00000&names=C%0AD%E2%99%AD%2FC%E2%99%AF%0AD%0AE%E2%99%AD%2FD%E2%99%AF%0AE%0AF%0AG%E2%99%AD%2FF%E2%99%AF%0AG%0AA%E2%99%AD%2FG%E2%99%AF%0AA%0AB%E2%99%AD%2FA%E2%99%AF%0AB&note_colors=ffffff%0Aff9f40%0Affffff%0Aff9f40%0Affffff%0Affffff%0Aff9f40%0Affffff%0Aff9f40%0Affffff%0Aff9f40%0Affffff">Wicki-Hayden</option>
+
+                                  <option value="?fundamental=261.6255653&right=3&upright=2&size=50&rotation=343.897886248&instrument=sawtooth&enum=false&equivSteps=12&piano_colors=true&spectrum_colors=false&no_labels=false&scale=!%2012-ed2%20B-System%20Chromatic%20Button.scl%0A!%2012-tone%20equal%20tempered%20scale%20consisting%20of%2012%20sonically%20equal%20divisions%20per%20frequency%20halving%2Fdoubling%2C%20mapped%20on%20a%20(hexagonal)%20tilted%20Chromatic%20Button%20System%20Type-B%20used%20on%20some%20button%20accordions.%0A!%0ATerpstra%20Keyboard%20WebApp%20%7C%2012-ed2%20B-System%20Chromatic%20Button%0A12%0A!%0A100.00000%0A200.00000%0A300.00000%0A400.00000%0A500.00000%0A600.00000%0A700.00000%0A800.00000%0A900.00000%0A1000.00000%0A1100.00000%0A1200.00000&names=C%0AD%E2%99%AD%2FC%E2%99%AF%0AD%0AE%E2%99%AD%2FD%E2%99%AF%0AE%0AF%0AG%E2%99%AD%2FF%E2%99%AF%0AG%0AA%E2%99%AD%2FG%E2%99%AF%0AA%0AB%E2%99%AD%2FA%E2%99%AF%0AB&note_colors=ffffff%0A7b7b7b%0Affffff%0A7b7b7b%0Affffff%0Affffff%0A7b7b7b%0Affffff%0A7b7b7b%0Affffff%0A7b7b7b%0Affffff">B-System Chromatic Button</option>
+
+                                  <option value="?fundamental=261.6255653&right=3&upright=1&size=50&rotation=343.897886248&instrument=sawtooth&enum=false&equivSteps=12&piano_colors=true&spectrum_colors=false&no_labels=false&scale=!%2012-ed2%20C-System%20Chromatic%20Button.scl%0A!%2012-tone%20equal%20tempered%20scale%20consisting%20of%2012%20sonically%20equal%20divisions%20per%20frequency%20halving%2Fdoubling%2C%20mapped%20on%20a%20(hexagonal)%20tilted%20Chromatic%20Button%20System%20Type-C%20used%20on%20some%20button%20accordions.%0A!%0ATerpstra%20Keyboard%20WebApp%20%7C%2012-ed2%20C-System%20Chromatic%20Button%0A12%0A!%0A100.00000%0A200.00000%0A300.00000%0A400.00000%0A500.00000%0A600.00000%0A700.00000%0A800.00000%0A900.00000%0A1000.00000%0A1100.00000%0A1200.00000&names=C%0AD%E2%99%AD%2FC%E2%99%AF%0AD%0AE%E2%99%AD%2FD%E2%99%AF%0AE%0AF%0AG%E2%99%AD%2FF%E2%99%AF%0AG%0AA%E2%99%AD%2FG%E2%99%AF%0AA%0AB%E2%99%AD%2FA%E2%99%AF%0AB&note_colors=ffffff%0A7b7b7b%0Affffff%0A7b7b7b%0Affffff%0Affffff%0A7b7b7b%0Affffff%0A7b7b7b%0Affffff%0A7b7b7b%0Affffff">C-System Chromatic Button</option>
+                              </optgroup>
+
+                              <optgroup label="Just Intonation">
+                                  <option value="?fundamental=256&right=1&upright=0&size=50&rotation=343.897886248&instrument=qanun&enum=false&equivSteps=7&spectrum_colors=false&no_labels=false&scale=!%207-JI%20Rast%20Maqam%20%28Arabic%29%20%E2%80%94%20%20Eight%20Echos%20%28Fourth%20Plagal%2C%20Byzantine%29%20Bosanquet%20Wilson%20Terpstra.scl%0A!%207-tone%20Arabic%20Rast%20Maqam%20made%20from%20two%20disjunct%20Rast%20tetrachords%20according%20to%20Mansour%20Zalzal%E2%80%99s%20famous%20lute%20tuning%20as%20described%20by%20al-Farabi%2C%20where%20the%20ratios%20including%20prime%20number%2011%20are%20alterations%20of%203-Limit%20versions%2C%20coinciding%20with%20the%20Eight%20Echos%20or%20Fourth%20Plagal%20of%20Byzantine%20Psaltic%20Chant%20described%20misleadingly%20in%20text%20books%20as%2012-10-8-12-12-10-8%20using%20the%2072%20moria%20system%20of%20approximation%2C%20mapped%20on%20a%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%20layout.%0A!%0ATerpstra%20Keyboard%20WebApp%20|%207-JI%20Rast%20Maqam%20%2F%20Eight%20Echos%20%E2%80%94%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%0A7%0A!%0A9%2F8%0A27%2F22%0A4%2F3%0A3%2F2%0A27%2F16%0A81%2F44%0A2%2F1&names=1%2F1%0A9%2F8%0A27%2F22%0A4%2F3%0A3%2F2%0A27%2F16%0A81%2F44&note_colors=ffffff%0Affc37d%0Aff9fb7%0Af7ffaf%0Af7ffaf%0Affc37d%0Aff9fb7">7-JI Rast Maqam / Eight Echos — Bosanquet / Wilson / Terpstra</option>
+
+                                  <option value="?fundamental=256&right=2&upright=1&size=50&rotation=343.897886248&instrument=piano&enum=false&equivSteps=12&spectrum_colors=false&no_labels=false&scale=!%2012-JI-7L%20Jank%C3%B3%206-6%20Balanced%20Symmetric%20Bilinear%20Uniform%20Keyboard%20~Halberstadt.scl%0A!%2012-tone%20Just%20Intonation%20classic%207-Limit%20scale%2C%20consisting%20of%2012%20rational%20divisions%20per%20frequency%20halving%2Fdoubling%20with%20sonic%20distances%20derived%20from%20the%20harmonic%20series%20up%20to%20a%20prime%20limit%20of%207%2C%20mapped%20on%20a%20(hexagonal)%20tilted%20Jank%C3%B3%20layout%20which%20can%20be%20regarded%20as%20a%20stacked%206-6%2FBalanced%2FSymmetric%2FBilinear%2FUniform%20Keyboard%2C%20and%20which%20approximates%20the%207-white%2F5-black%20Halberstadt%20organ%20layout%20(the%20classic%20piano%20keyboard).%0A!%0ATerpstra%20Keyboard%20WebApp%20%7C%2012-JI-7L%20Jank%C3%B3%20%2F%206-6%2FBalanced%2FSymmetric%2FBilinear%2FUniform%20Keyboard%20%2F%20~Halberstadt%0A12%0A!%0A16%2F15%0A9%2F8%0A6%2F5%0A5%2F4%0A4%2F3%0A7%2F5%0A3%2F2%0A8%2F5%0A5%2F3%0A7%2F4%0A15%2F8%0A2%2F1&names=1%2F1%0A16%2F15%0A9%2F8%0A6%2F5%0A5%2F4%0A4%2F3%0A7%2F5%0A3%2F2%0A8%2F5%0A5%2F3%0A7%2F4%0A15%2F8&note_colors=55d455%0A55f4aa%0A55ffff%0A55b4ff%0A5555ea%0Aaa55ff%0Aff55ff%0Aff55aa%0Af45555%0Affaa55%0Affff55%0Aaaf455">12-JI-7L Jankó / 6-6/Balanced/Symmetric/Bilinear/Uniform</option>
+
+                                  <option value="?fundamental=256&right=3&upright=2&size=50&rotation=343.897886248&instrument=qanun&enum=false&equivSteps=17&spectrum_colors=false&no_labels=false&scale=!%2017-JI-5L-Arabic-theoretical%20Bosanquet%20Wilson%20Terpstra.scl%0A!%2017-tone%20Arabic%20theoretical%20scale%3A%205-Limit%20Just%20Intonation%20which%20is%20schismatic%20equivalent%20to%20a%2017-tone%203-Limit%20scale%20generated%20from%2012%20steps%20descending%20and%204%20ascending%20plus%20the%20fundamental%2C%20consisting%20of%2017%20rational%20divisions%20per%20frequency%20halving%2Fdoubling%20with%20sonic%20distances%20derived%20from%20the%20harmonic%20series%20up%20to%20a%20prime%20limit%20of%205%2C%20presumably%20used%20until%20the%208th%20century%2C%20mapped%20on%20a%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%20layout.%0A!%0ATerpstra%20Keyboard%20WebApp%20|%2017-JI-5L-Arabic-theoretical%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%0A17%0A!%0A256%2F243%0A10%2F9%0A9%2F8%0A32%2F27%0A5%2F4%0A81%2F64%0A4%2F3%0A45%2F32%0A40%2F27%0A3%2F2%0A128%2F81%0A5%2F3%0A27%2F16%0A16%2F9%0A15%2F8%0A160%2F81%0A2%2F1&names=1%2F1%0A256%2F243%0A10%2F9%0A9%2F8%0A32%2F27%0A5%2F4%0A81%2F64%0A4%2F3%0A45%2F32%0A40%2F27%0A3%2F2%0A128%2F81%0A5%2F3%0A27%2F16%0A16%2F9%0A15%2F8%0A160%2F81&note_colors=f7ffaf%0A8fc7ef%0Aff9fb7%0Af7ffaf%0A8fc7ef%0Af7ffaf%0Aff9fb7%0Af7ffaf%0A8fc7ef%0Aff9fb7%0Af7ffaf%0A8fc7ef%0Af7ffaf%0Aff9fb7%0A8fc7ef%0Af7ffaf%0Aff9fb7">17-JI-5L-Arabic-theoretical Bosanquet / Wilson / Terpstra</option>
+
+                                  <option value="?fundamental=256&right=3&upright=2&size=50&rotation=343.897886248&instrument=harp&enum=false&equivSteps=17&spectrum_colors=false&no_labels=false&scale=!%2017-JI-11L-Wilson%20Bosanquet%20Wilson%20Terpstra.scl%0A!%2017-tone%20Just%20Intonation%2011-Limit%20scale%20by%20Erv%20Wilson%2C%20consisting%20of%2017%20rational%20divisions%20per%20frequency%20halving%2Fdoubling%20with%20sonic%20distances%20derived%20from%20the%20harmonic%20series%20up%20to%20a%20prime%20limit%20of%2011%2C%20mapped%20on%20a%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%20layout.%0A!%20Fokblock(%5B64%2F63%2C%2056%2F55%2C%20968%2F945%2C%2036%2F35%5D%2C%20%5B5%2C%206%2C%2011%2C%206%5D)%20%3D%20%0A!%20Fokblock(%5B64%2F63%2C%2056%2F55%2C%2036%2F35%2C%20704%2F675%5D%2C%20%5B5%2C%203%2C%206%2C%2011%5D)%20%3D%0A!%20Fokblock(%5B64%2F63%2C%20968%2F945%2C%2036%2F35%2C%20704%2F675%5D%2C%20%5B5%2C%2013%2C%206%2C%206%5D)%20wakalix%0ATerpstra%20Keyboard%20WebApp%20%7C%2017-JI-11L-Wilson%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%0A17%0A!%0A22%2F21%0A11%2F10%0A9%2F8%0A7%2F6%0A11%2F9%0A5%2F4%0A4%2F3%0A11%2F8%0A22%2F15%0A3%2F2%0A11%2F7%0A44%2F27%0A5%2F3%0A7%2F4%0A11%2F6%0A15%2F8%0A2%2F1&names=R%0A22%2F21%0A11%2F10%0A9%2F8%0A7%2F6%0A11%2F9%0A5%2F4%0A4%2F3%0A11%2F8%0A22%2F15%0A3%2F2%0A11%2F7%0A44%2F27%0A5%2F3%0A7%2F4%0A11%2F6%0A15%2F8&note_colors=8fc7ef%0Af7ffaf%0Affc37d%0A8fc7ef%0Af7ffaf%0Affc37d%0A8fc7ef%0A8fc7ef%0Affc37d%0Affc37d%0A8fc7ef%0Af7ffaf%0Affc37d%0A8fc7ef%0Af7ffaf%0Affc37d%0A8fc7ef">17-JI-11L-Wilson Bosanquet / Wilson / Terpstra</option>
+
+                                  <option value="?fundamental=272.2044155&right=4&upright=3&size=50&rotation=343.897886248&instrument=qanun&enum=false&equivSteps=22&spectrum_colors=false&no_labels=false&scale=!%2022-JI-5L-Indian%20Bosanquet%20Wilson%20Terpstra.scl%0A!%2022-tone%20Indian%20scale%3A%205-Limit%20Just%20Intonation%20which%20is%20schismatic%20equivalent%20to%20a%2022-tone%203-Limit%20scale%20generated%20from%2011%20steps%20ascending%20and%2010%20descending%20plus%20the%20fundamental%2C%20consisting%20of%2022%20rational%20divisions%20per%20frequency%20halving%2Fdoubling%20with%20sonic%20distances%20derived%20from%20the%20harmonic%20series%20up%20to%20a%20prime%20limit%20of%205%2C%20notated%20after%20Alain%20Dani%C3%A9lou%2C%20having%20as%20reference%20frequency%20the%20Earth%27s%20year%20transposed%2033%20octaves%20higher%2C%20mapped%20on%20a%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%20layout.%0A!%0ATerpstra%20Keyboard%20WebApp%20|%2022-JI-5L-Indian%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%0A22%0A!%0A256%2F243%0A16%2F15%0A10%2F9%0A9%2F8%0A32%2F27%0A6%2F5%0A5%2F4%0A81%2F64%0A4%2F3%0A27%2F20%0A45%2F32%0A64%2F45%0A3%2F2%0A128%2F81%0A8%2F5%0A5%2F3%0A27%2F16%0A16%2F9%0A9%2F5%0A15%2F8%0A243%2F128%0A2%2F1&names=Sa%0AReL-%0AReL%2B%0ARe-%0ARe%0AGaL%0AGab%0AGa%0AGa%2B%0AMa%0AMa%2B%0AMaL-%0AMaL%2B%0APa%0ADhaL%0ADhab%0ADha%0ADha%2B%0ANiL%2B%0ANib%0ANi%0ANi%2B&note_colors=80df80%0A80cfff%0Affbfff%0Affcf80%0A80df80%0A80cfff%0Affbfff%0A80df80%0Affcf80%0A80df80%0Affcf80%0A80cfff%0Affbfff%0A80df80%0A80cfff%0Affbfff%0Affcf80%0A80df80%0A80cfff%0Affbfff%0A80df80%0Affcf80">22-JI-5L-Indian Bosanquet / Wilson / Terpstra</option>
+
+                                  <option value="?fundamental=264&right=5&upright=2&size=50&rotation=343.897886248&instrument=organ&enum=false&equivSteps=31&spectrum_colors=false&no_labels=false&scale=!%2031-JI-7L-Fokker%20Bosanquet%20Wilson%20Terpstra.scl%0A!%2031-tone%20Just%20Intonation%207-Limit%20scale%20by%20Adriaan%20Fokker%2C%20consisting%20of%2031%20rational%20divisions%20per%20frequency%20halving%2Fdoubling%20with%20sonic%20distances%20derived%20from%20the%20harmonic%20series%20up%20to%20a%20prime%20limit%20of%207%2C%20mapped%20on%20a%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%20layout.%0A!%0ATerpstra%20Keyboard%20WebApp%20%7C%2031-JI-7L-Fokker%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%0A31%0A!%0A64%2F63%0A135%2F128%0A15%2F14%0A35%2F32%0A9%2F8%0A8%2F7%0A7%2F6%0A135%2F112%0A315%2F256%0A5%2F4%0A9%2F7%0A21%2F16%0A4%2F3%0A175%2F128%0A45%2F32%0A10%2F7%0A35%2F24%0A3%2F2%0A32%2F21%0A14%2F9%0A45%2F28%0A105%2F64%0A5%2F3%0A12%2F7%0A7%2F4%0A16%2F9%0A945%2F512%0A15%2F8%0A40%2F21%0A63%2F32%0A2%2F1&names=1%2F1%0A64%2F63%0A135%2F128%0A15%2F14%0A35%2F32%0A9%2F8%0A8%2F7%0A7%2F6%0A135%2F112%0A315%2F256%0A5%2F4%0A9%2F7%0A21%2F16%0A4%2F3%0A175%2F128%0A45%2F32%0A10%2F7%0A35%2F24%0A3%2F2%0A32%2F21%0A14%2F9%0A45%2F28%0A105%2F64%0A5%2F3%0A12%2F7%0A7%2F4%0A16%2F9%0A945%2F512%0A15%2F8%0A40%2F21%0A63%2F32&note_colors=ffffff%0Aff9f41%0Acfcfcf%0Abbaa93%0A7b7b7b%0Affffff%0Aff9f41%0Acfcfcf%0Abbaa93%0A7b7b7b%0Affffff%0Abbaa93%0Acfcfcf%0Affffff%0Aff9f41%0Acfcfcf%0Abbaa93%0A7b7b7b%0Affffff%0Aff9f41%0Acfcfcf%0Abbaa93%0A7b7b7b%0Affffff%0Aff9f41%0Acfcfcf%0Abbaa93%0A7b7b7b%0Affffff%0Abbaa93%0Acfcfcf%0Affffff">31-JI-7L-Fokker Bosanquet / Wilson / Terpstra</option>
+
+                                  <option value="?fundamental=260.74074074&right=7&upright=3&size=50&rotation=343.897886248&instrument=gayageum&enum=false&equivSteps=43&spectrum_colors=true&fundamental_color=55FF55&no_labels=false&scale=!%2043-JI-11L-Partch%20Bosanquet%20Wilson%20Terpstra.scl%0A!%2043-tone%20Just%20Intonation%2011-Limit%20scale%20by%20Harry%20Partch%2C%20consisting%20of%2043%20rational%20divisions%20per%20frequency%20halving%2Fdoubling%20with%20sonic%20distances%20derived%20symmetrically%20from%20both%20ascending%20and%20descending%20harmonic%20series%20(otonalities%20and%20utonalities)%20up%20to%20a%20prime%20limit%20of%2011%2C%20mapped%20on%20a%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%20layout.%0A!%0ATerpstra%20Keyboard%20WebApp%20%7C%2043-JI-11L-Partch%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%0A43%0A!%0A81%2F80%0A33%2F32%0A21%2F20%0A16%2F15%0A12%2F11%0A11%2F10%0A10%2F9%0A9%2F8%0A8%2F7%0A7%2F6%0A32%2F27%0A6%2F5%0A11%2F9%0A5%2F4%0A14%2F11%0A9%2F7%0A21%2F16%0A4%2F3%0A27%2F20%0A11%2F8%0A7%2F5%0A10%2F7%0A16%2F11%0A40%2F27%0A3%2F2%0A32%2F21%0A14%2F9%0A11%2F7%0A8%2F5%0A18%2F11%0A5%2F3%0A27%2F16%0A12%2F7%0A7%2F4%0A16%2F9%0A9%2F5%0A20%2F11%0A11%2F6%0A15%2F8%0A40%2F21%0A64%2F33%0A160%2F81%0A2%2F1&names=1%2F1%0A81%2F80%0A33%2F32%0A21%2F20%0A16%2F15%0A12%2F11%0A11%2F10%0A10%2F9%0A9%2F8%0A8%2F7%0A7%2F6%0A32%2F27%0A6%2F5%0A11%2F9%0A5%2F4%0A14%2F11%0A9%2F7%0A21%2F16%0A4%2F3%0A27%2F20%0A11%2F8%0A7%2F5%0A10%2F7%0A16%2F11%0A40%2F27%0A3%2F2%0A32%2F21%0A14%2F9%0A11%2F7%0A8%2F5%0A18%2F11%0A5%2F3%0A27%2F16%0A12%2F7%0A7%2F4%0A16%2F9%0A9%2F5%0A20%2F11%0A11%2F6%0A15%2F8%0A40%2F21%0A64%2F33%0A160%2F81&note_colors=">43-JI-11L-Partch Bosanquet / Wilson / Terpstra</option>
+
+                                  <option value="?fundamental=256&right=9&upright=5&size=50&rotation=343.897886248&instrument=qanun&enum=false&equivSteps=53&spectrum_colors=false&no_labels=false&scale=!%2053-RI-3L%20Bosanquet%20Wilson%20Terpstra%20Male%20(Western).scl%0A!%2053-tone%20Rational%20Intonation%203-Limit%20scale%2C%20consisting%20of%2053%20rational%20divisions%20per%20frequency%20halving%2Fdoubling%20with%20sonic%20distances%20derived%20solely%20from%20the%20harmonics%202%20and%203%20of%20both%20ascending%20and%20descending%20harmonic%20series%2C%20mapped%20on%20a%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%20Male%20(Western)%20layout.%0A!%0ATerpstra%20Keyboard%20WebApp%20%7C%2053-RI-3L%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%20Male%20(Western)%0A53%0A!%0A531441%2F524288%0A282429536481%2F274877906944%0A134217728%2F129140163%0A256%2F243%0A2187%2F2048%0A1162261467%2F1073741824%0A34359738368%2F31381059609%0A65536%2F59049%0A9%2F8%0A4782969%2F4194304%0A2541865828329%2F2199023255552%0A16777216%2F14348907%0A32%2F27%0A19683%2F16384%0A10460353203%2F8589934592%0A4294967296%2F3486784401%0A8192%2F6561%0A81%2F64%0A43046721%2F33554432%0A1099511627776%2F847288609443%0A2097152%2F1594323%0A4%2F3%0A177147%2F131072%0A94143178827%2F68719476736%0A536870912%2F387420489%0A1024%2F729%0A729%2F512%0A387420489%2F268435456%0A137438953472%2F94143178827%0A262144%2F177147%0A3%2F2%0A1594323%2F1048576%0A847288609443%2F549755813888%0A67108864%2F43046721%0A128%2F81%0A6561%2F4096%0A3486784401%2F2147483648%0A17179869184%2F10460353203%0A32768%2F19683%0A27%2F16%0A14348907%2F8388608%0A4398046511104%2F2541865828329%0A8388608%2F4782969%0A16%2F9%0A59049%2F32768%0A31381059609%2F17179869184%0A2147483648%2F1162261467%0A4096%2F2187%0A243%2F128%0A129140163%2F67108864%0A549755813888%2F282429536481%0A1048576%2F531441%0A2%2F1&names=2%E2%81%B0%7C3%E2%81%B0%0A2%C2%B9%E2%81%B9%7C3%C2%B9%C2%B2%0A2%C2%B3%E2%81%B8%7C3%C2%B2%E2%81%B4%0A3%C2%B9%E2%81%B7%7C2%C2%B2%E2%81%B7%0A3%E2%81%B5%7C2%E2%81%B8%0A2%C2%B9%C2%B9%7C3%E2%81%B7%0A2%C2%B3%E2%81%B0%7C3%C2%B9%E2%81%B9%0A3%C2%B2%C2%B2%7C2%C2%B3%E2%81%B5%0A3%C2%B9%E2%81%B0%7C2%C2%B9%E2%81%B6%0A2%C2%B3%7C3%C2%B2%0A2%C2%B2%C2%B2%7C3%C2%B9%E2%81%B4%0A2%E2%81%B4%C2%B9%7C3%C2%B2%E2%81%B6%0A3%C2%B9%E2%81%B5%7C2%C2%B2%E2%81%B4%0A3%C2%B3%7C2%E2%81%B5%0A2%C2%B9%E2%81%B4%7C3%E2%81%B9%0A2%C2%B3%C2%B3%7C3%C2%B2%C2%B9%0A3%C2%B2%E2%81%B0%7C2%C2%B3%C2%B2%0A3%E2%81%B8%7C2%C2%B9%C2%B3%0A2%E2%81%B6%7C3%E2%81%B4%0A2%C2%B2%E2%81%B5%7C3%C2%B9%E2%81%B6%0A3%C2%B2%E2%81%B5%7C2%E2%81%B4%E2%81%B0%0A3%C2%B9%C2%B3%7C2%C2%B2%C2%B9%0A3%C2%B9%7C2%C2%B2%0A2%C2%B9%E2%81%B7%7C3%C2%B9%C2%B9%0A2%C2%B3%E2%81%B6%7C3%C2%B2%C2%B3%0A3%C2%B9%E2%81%B8%7C2%C2%B2%E2%81%B9%0A3%E2%81%B6%7C2%C2%B9%E2%81%B0%0A2%E2%81%B9%7C3%E2%81%B6%0A2%C2%B2%E2%81%B8%7C3%C2%B9%E2%81%B8%0A3%C2%B2%C2%B3%7C2%C2%B3%E2%81%B7%0A3%C2%B9%C2%B9%7C2%C2%B9%E2%81%B8%0A2%C2%B9%7C3%C2%B9%0A2%C2%B2%E2%81%B0%7C3%C2%B9%C2%B3%0A2%C2%B3%E2%81%B9%7C3%C2%B2%E2%81%B5%0A3%C2%B9%E2%81%B6%7C2%C2%B2%E2%81%B6%0A3%E2%81%B4%7C2%E2%81%B7%0A2%C2%B9%C2%B2%7C3%E2%81%B8%0A2%C2%B3%C2%B9%7C3%C2%B2%E2%81%B0%0A3%C2%B2%C2%B9%7C2%C2%B3%E2%81%B4%0A3%E2%81%B9%7C2%C2%B9%E2%81%B5%0A2%E2%81%B4%7C3%C2%B3%0A2%C2%B2%C2%B3%7C3%C2%B9%E2%81%B5%0A3%C2%B2%E2%81%B6%7C2%E2%81%B4%C2%B2%0A3%C2%B9%E2%81%B4%7C2%C2%B2%C2%B3%0A3%C2%B2%7C2%E2%81%B4%0A2%C2%B9%E2%81%B5%7C3%C2%B9%E2%81%B0%0A2%C2%B3%E2%81%B4%7C3%C2%B2%C2%B2%0A3%C2%B9%E2%81%B9%7C2%C2%B3%C2%B9%0A3%E2%81%B7%7C2%C2%B9%C2%B2%0A2%E2%81%B7%7C3%E2%81%B5%0A2%C2%B2%E2%81%B6%7C3%C2%B9%E2%81%B7%0A3%C2%B2%E2%81%B4%7C2%C2%B3%E2%81%B9%0A3%C2%B9%C2%B2%7C2%C2%B2%E2%81%B0%0A3%E2%81%B0%7C2%C2%B9&note_colors=ffffff%0Ac3b7ab%0Ae7e7e7%0A878787%0Aff9f40%0A878787%0Aff9f40%0Ae7e7e7%0Aabb7c3%0Affffff%0Ac3b7ab%0Ae7e7e7%0A878787%0Aff9f40%0A878787%0Aff9f40%0Ae7e7e7%0Aabb7c3%0Affffff%0Ac3b7ab%0Ae7e7e7%0Aabb7c3%0Affffff%0Ac3b7ab%0Ae7e7e7%0A878787%0Aff9f40%0A878787%0Aff9f40%0Ae7e7e7%0Aabb7c3%0Affffff%0Ac3b7ab%0Ae7e7e7%0A878787%0Aff9f40%0A878787%0Aff9f40%0Ae7e7e7%0Aabb7c3%0Affffff%0Ac3b7ab%0Ae7e7e7%0A878787%0Aff9f40%0A878787%0Aff9f40%0Ae7e7e7%0Aabb7c3%0Affffff%0Ac3b7ab%0Ae7e7e7%0Aabb7c3">53-RI-3L Bosanquet / Wilson / Terpstra Male (Western)</option>
+
+                                  <option value="?fundamental=256&right=9&upright=4&size=50&rotation=16.102113751&instrument=qanun&enum=false&equivSteps=53&spectrum_colors=false&no_labels=false&scale=!%2053-RI-3L%20Bosanquet%20Wilson%20Terpstra%20Female%20(Eastern).scl%0A!%2053-tone%20Rational%20Intonation%203-Limit%20scale%2C%20consisting%20of%2053%20rational%20divisions%20per%20frequency%20halving%2Fdoubling%20with%20sonic%20distances%20derived%20solely%20from%20the%20harmonics%202%20and%203%20of%20both%20ascending%20and%20descending%20harmonic%20series%2C%20mapped%20on%20a%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%20Female%20(Eastern)%20layout.%0A!%0ATerpstra%20Keyboard%20WebApp%20%7C%2053-RI-3L%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%20Female%20(Eastern)%0A53%0A!%0A531441%2F524288%0A282429536481%2F274877906944%0A134217728%2F129140163%0A256%2F243%0A2187%2F2048%0A1162261467%2F1073741824%0A34359738368%2F31381059609%0A65536%2F59049%0A9%2F8%0A4782969%2F4194304%0A2541865828329%2F2199023255552%0A16777216%2F14348907%0A32%2F27%0A19683%2F16384%0A10460353203%2F8589934592%0A4294967296%2F3486784401%0A8192%2F6561%0A81%2F64%0A43046721%2F33554432%0A1099511627776%2F847288609443%0A2097152%2F1594323%0A4%2F3%0A177147%2F131072%0A94143178827%2F68719476736%0A536870912%2F387420489%0A1024%2F729%0A729%2F512%0A387420489%2F268435456%0A137438953472%2F94143178827%0A262144%2F177147%0A3%2F2%0A1594323%2F1048576%0A847288609443%2F549755813888%0A67108864%2F43046721%0A128%2F81%0A6561%2F4096%0A3486784401%2F2147483648%0A17179869184%2F10460353203%0A32768%2F19683%0A27%2F16%0A14348907%2F8388608%0A4398046511104%2F2541865828329%0A8388608%2F4782969%0A16%2F9%0A59049%2F32768%0A31381059609%2F17179869184%0A2147483648%2F1162261467%0A4096%2F2187%0A243%2F128%0A129140163%2F67108864%0A549755813888%2F282429536481%0A1048576%2F531441%0A2%2F1&names=2%E2%81%B0%7C3%E2%81%B0%0A2%C2%B9%E2%81%B9%7C3%C2%B9%C2%B2%0A2%C2%B3%E2%81%B8%7C3%C2%B2%E2%81%B4%0A3%C2%B9%E2%81%B7%7C2%C2%B2%E2%81%B7%0A3%E2%81%B5%7C2%E2%81%B8%0A2%C2%B9%C2%B9%7C3%E2%81%B7%0A2%C2%B3%E2%81%B0%7C3%C2%B9%E2%81%B9%0A3%C2%B2%C2%B2%7C2%C2%B3%E2%81%B5%0A3%C2%B9%E2%81%B0%7C2%C2%B9%E2%81%B6%0A2%C2%B3%7C3%C2%B2%0A2%C2%B2%C2%B2%7C3%C2%B9%E2%81%B4%0A2%E2%81%B4%C2%B9%7C3%C2%B2%E2%81%B6%0A3%C2%B9%E2%81%B5%7C2%C2%B2%E2%81%B4%0A3%C2%B3%7C2%E2%81%B5%0A2%C2%B9%E2%81%B4%7C3%E2%81%B9%0A2%C2%B3%C2%B3%7C3%C2%B2%C2%B9%0A3%C2%B2%E2%81%B0%7C2%C2%B3%C2%B2%0A3%E2%81%B8%7C2%C2%B9%C2%B3%0A2%E2%81%B6%7C3%E2%81%B4%0A2%C2%B2%E2%81%B5%7C3%C2%B9%E2%81%B6%0A3%C2%B2%E2%81%B5%7C2%E2%81%B4%E2%81%B0%0A3%C2%B9%C2%B3%7C2%C2%B2%C2%B9%0A3%C2%B9%7C2%C2%B2%0A2%C2%B9%E2%81%B7%7C3%C2%B9%C2%B9%0A2%C2%B3%E2%81%B6%7C3%C2%B2%C2%B3%0A3%C2%B9%E2%81%B8%7C2%C2%B2%E2%81%B9%0A3%E2%81%B6%7C2%C2%B9%E2%81%B0%0A2%E2%81%B9%7C3%E2%81%B6%0A2%C2%B2%E2%81%B8%7C3%C2%B9%E2%81%B8%0A3%C2%B2%C2%B3%7C2%C2%B3%E2%81%B7%0A3%C2%B9%C2%B9%7C2%C2%B9%E2%81%B8%0A2%C2%B9%7C3%C2%B9%0A2%C2%B2%E2%81%B0%7C3%C2%B9%C2%B3%0A2%C2%B3%E2%81%B9%7C3%C2%B2%E2%81%B5%0A3%C2%B9%E2%81%B6%7C2%C2%B2%E2%81%B6%0A3%E2%81%B4%7C2%E2%81%B7%0A2%C2%B9%C2%B2%7C3%E2%81%B8%0A2%C2%B3%C2%B9%7C3%C2%B2%E2%81%B0%0A3%C2%B2%C2%B9%7C2%C2%B3%E2%81%B4%0A3%E2%81%B9%7C2%C2%B9%E2%81%B5%0A2%E2%81%B4%7C3%C2%B3%0A2%C2%B2%C2%B3%7C3%C2%B9%E2%81%B5%0A3%C2%B2%E2%81%B6%7C2%E2%81%B4%C2%B2%0A3%C2%B9%E2%81%B4%7C2%C2%B2%C2%B3%0A3%C2%B2%7C2%E2%81%B4%0A2%C2%B9%E2%81%B5%7C3%C2%B9%E2%81%B0%0A2%C2%B3%E2%81%B4%7C3%C2%B2%C2%B2%0A3%C2%B9%E2%81%B9%7C2%C2%B3%C2%B9%0A3%E2%81%B7%7C2%C2%B9%C2%B2%0A2%E2%81%B7%7C3%E2%81%B5%0A2%C2%B2%E2%81%B6%7C3%C2%B9%E2%81%B7%0A3%C2%B2%E2%81%B4%7C2%C2%B3%E2%81%B9%0A3%C2%B9%C2%B2%7C2%C2%B2%E2%81%B0%0A3%E2%81%B0%7C2%C2%B9&note_colors=ffffff%0Ac3b7ab%0Ae7e7e7%0A878787%0Aff9f40%0A878787%0Aff9f40%0Ae7e7e7%0Aabb7c3%0Affffff%0Ac3b7ab%0Ae7e7e7%0A878787%0Aff9f40%0A878787%0Aff9f40%0Ae7e7e7%0Aabb7c3%0Affffff%0Ac3b7ab%0Ae7e7e7%0Aabb7c3%0Affffff%0Ac3b7ab%0Ae7e7e7%0A878787%0Aff9f40%0A878787%0Aff9f40%0Ae7e7e7%0Aabb7c3%0Affffff%0Ac3b7ab%0Ae7e7e7%0A878787%0Aff9f40%0A878787%0Aff9f40%0Ae7e7e7%0Aabb7c3%0Affffff%0Ac3b7ab%0Ae7e7e7%0A878787%0Aff9f40%0A878787%0Aff9f40%0Ae7e7e7%0Aabb7c3%0Affffff%0Ac3b7ab%0Ae7e7e7%0Aabb7c3">53-RI-3L Mirrored Bosanquet/Wilson / Terpstra Female (Eastern)</option>
+                              </optgroup>
+
+                              <optgroup label="Equal Temperaments">
+                                  <option value="?fundamental=254.5642522&right=3&upright=1&size=50&rotation=343.897886248&instrument=piano&enum=false&equivSteps=19&spectrum_colors=false&no_labels=false&scale=!%2019-ed2%20Bosanquet%20Wilson%20Terpstra.scl%0A!%2019-tone%20equal%20tempered%20scale%20consisting%20of%2012%20sonically%20equal%20divisions%20per%20frequency%20halving%2Fdoubling%2C%20mapped%20on%20a%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%20layout.%0A!%0ATerpstra%20Keyboard%20WebApp%20%7C%2019-ed2%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%0A19%0A!%0A63.15789%0A126.31579%0A189.47368%0A252.63158%0A315.78947%0A378.94737%0A442.10526%0A505.26316%0A568.42105%0A631.57895%0A694.73684%0A757.89474%0A821.05263%0A884.21053%0A947.36842%0A1010.52632%0A1073.68421%0A1136.84211%0A1200.00000&names=C%0AC%E2%99%AF%0AD%E2%99%AD%0AD%0AD%E2%99%AF%0AE%E2%99%AD%0AE%0AE%E2%99%AF%2FF%E2%99%AD%0AF%0AF%E2%99%AF%0AG%E2%99%AD%0AG%0AG%E2%99%AF%0AA%E2%99%AD%0AA%0AA%E2%99%AF%0AB%E2%99%AD%0AB%0AB%E2%99%AF%2FC%E2%99%AD&note_colors=ffffff%0A7fbfd4%0Aff9f40%0Affffff%0A7fbfd4%0Aff9f40%0Affffff%0Abfaf8a%0Affffff%0A7fbfd4%0Aff9f40%0Affffff%0A7fbfd4%0Aff9f40%0Affffff%0A7fbfd4%0Aff9f40%0Affffff%0Abfaf8a">19-ed2 Bosanquet / Wilson / Terpstra</option>
+
+                                  <option value="?fundamental=263.09212&right=5&upright=2&size=50&rotation=343.897886248&instrument=organ&enum=false&equivSteps=31&spectrum_colors=false&no_labels=false&scale=!%2031-ed2%20Bosanquet%20Wilson%20Terpstra.scl%0A!%2031-tone%20equal%20tempered%20scale%20consisting%20of%2031%20sonically%20equal%20divisions%20per%20frequency%20halving%2Fdoubling%20in%20standard%20meantone%20notation%2C%20mapped%20on%20a%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%20layout.%0A!%0ATerpstra%20Keyboard%20WebApp%20%7C%2031-ed2%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%0A31%0A!%0A38.70968%0A77.41935%0A116.12903%0A154.83871%0A193.54839%0A232.25806%0A270.96774%0A309.67742%0A348.38710%0A387.09677%0A425.80645%0A464.51613%0A503.22581%0A541.93548%0A580.64516%0A619.35484%0A658.06452%0A696.77419%0A735.48387%0A774.19355%0A812.90323%0A851.61290%0A890.32258%0A929.03226%0A967.74194%0A1006.45161%0A1045.16129%0A1083.87097%0A1122.58065%0A1161.29032%0A1200.00000&names=C%0AD%E2%99%AD%E2%99%AD%0AC%E2%99%AF%0AD%E2%99%AD%0AC%C3%97%0AD%0AE%E2%99%AD%E2%99%AD%0AD%E2%99%AF%0AE%E2%99%AD%0AD%C3%97%0AE%0AF%E2%99%AD%0AE%E2%99%AF%0AF%0AG%E2%99%AD%E2%99%AD%0AF%E2%99%AF%0AG%E2%99%AD%0AF%C3%97%0AG%0AA%E2%99%AD%E2%99%AD%0AG%E2%99%AF%0AA%E2%99%AD%0AG%C3%97%0AA%0AB%E2%99%AD%E2%99%AD%0AA%E2%99%AF%0AB%E2%99%AD%0AA%C3%97%0AB%0AC%E2%99%AD%0AB%E2%99%AF&note_colors=ffffff%0Aff9f41%0Acfcfcf%0Abbaa93%0A7b7b7b%0Affffff%0Aff9f41%0Acfcfcf%0Abbaa93%0A7b7b7b%0Affffff%0Abbaa93%0Acfcfcf%0Affffff%0Aff9f41%0Acfcfcf%0Abbaa93%0A7b7b7b%0Affffff%0Aff9f41%0Acfcfcf%0Abbaa93%0A7b7b7b%0Affffff%0Aff9f41%0Acfcfcf%0Abbaa93%0A7b7b7b%0Affffff%0Abbaa93%0Acfcfcf%0Affffff">31-ed2 Bosanquet / Wilson / Terpstra</option>
+
+                              <option value="?fundamental=260.5221364&right=7&upright=4&size=50&rotation=343.897886248&instrument=harp&enum=true&equivSteps=41&spectrum_colors=false&no_labels=false&scale=!%2041-ed2%20Bosanquet%20Wilson%20Terpstra.scl%0A!%2041-tone%20equal%20tempered%20scale%20consisting%20of%2041%20sonically%20equal%20divisions%20per%20frequency%20halving%2Fdoubling%2C%20mapped%20on%20a%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%20layout.%0A!%0ATerpstra%20Keyboard%20WebApp%20|%2041-ed2%20Bosanquet%20%2F%20Wilson%20%2F%20Terpstra%0A41%0A!%0A29.26829%0A58.53659%0A87.80488%0A117.07317%0A146.34146%0A175.60976%0A204.87805%0A234.14634%0A263.41463%0A292.68293%0A321.95122%0A351.21951%0A380.48780%0A409.75610%0A439.02439%0A468.29268%0A497.56098%0A526.82927%0A556.09756%0A585.36585%0A614.63415%0A643.90244%0A673.17073%0A702.43902%0A731.70732%0A760.97561%0A790.24390%0A819.51220%0A848.78049%0A878.04878%0A907.31707%0A936.58537%0A965.85366%0A995.12195%0A1024.39024%0A1053.65854%0A1082.92683%0A1112.19512%0A1141.46341%0A1170.73171%0A1200.00000&names=0%2F41%0A1%0A2%0A3%0A4%0A5%0A6%0A7%0A8%0A9%0A10%0A11%0A12%0A13%0A14%0A15%0A16%0A17%0A18%0A19%0A20%0A21%0A22%0A23%0A24%0A25%0A26%0A27%0A28%0A29%0A30%0A31%0A32%0A33%0A34%0A35%0A36%0A37%0A38%0A39%0A40&note_colors=ffffff%0Ac3b7ab%0A878787%0Aff9f40%0A878787%0Aff9f40%0Aabb7c3%0Affffff%0Ac3b7ab%0A878787%0Aff9f40%0A878787%0Aff9f40%0Aabb7c3%0Affffff%0Ac3b7ab%0Aabb7c3%0Affffff%0Ac3b7ab%0A878787%0Aff9f40%0A878787%0Aff9f40%0Aabb7c3%0Affffff%0Ac3b7ab%0A878787%0Aff9f40%0A878787%0Aff9f40%0Aabb7c3%0Affffff%0Ac3b7ab%0A878787%0Aff9f40%0A878787%0Aff9f40%0Aabb7c3%0Affffff%0Ac3b7ab%0Aabb7c3">41-ed2 Bosanquet / Wilson / Terpstra</option>
+                              </optgroup>
+
+                          </select>
+
+                          <label>Fundamental (Hz)</label>
+                          <input id="fundamental" type="number" step="any" min="0.015625" max="16384" value="256" onchange="changeURL();noPreset();" class="u-full-width">
+                       </div>
+
+						<div class="u-half-width">
+
+                          <label>Right Facing Steps</label>
+                          <input id="rSteps" type="number" min="-1220" max="1220" value="4" onchange="changeURL();noPreset();" class="u-full-width">
+
+                          <label>Up/Right Facing Steps</label>
+                          <input id="urSteps" type="number" min="-1220" max="1220" value="7" onchange="changeURL();noPreset();" class="u-full-width">
+						</div>
+                    </div>
+
+					<div class="one-half column thincol-parent">
+						<div class="u-half-width rpad">
+
+                          <label>Hex Size (pixels)</label>
+                          <input id="hexSize" type="number" step="any" min="20" max="1000" value="50" onchange="changeURL();noPreset();" class="u-full-width">
+
+                          <label>Rotation (degrees)</label>
+                          <input id="rotation" type="number" step="any" min="0" max="360" value="343.897886248" onchange="changeURL();noPreset();" class="u-full-width">
+						</div>
+
+						<div class="u-half-width">
+
+                          <label>Instrument</label>
+                          <select id="instrument" onchange="changeURL();noPreset();"  class="u-full-width">
+                            <optgroup label="Regular">
+                                <option value="piano">Piano</option>
+                                <option value="harpsichord">Harpsichord</option>
+                                <option value="rhodes">Rhodes</option>
+                                <option value="harp">Harp</option>
+                                <option value="choir">Choir</option>
+                                <option value="strings">Strings</option>
+                                <option value="sawtooth">Sawtooth</option>
+                                <option value="gayageum">Gayageum</option>
+                                <option value="qanun">Qanun</option>
+                                <option value="organ">Organ</option>
+                                <option value="organleslie">Organ + Leslie</option>
+                                <option value="marimba">Marimba</option>
+                                <option value="musicbox">Music Box</option>
+                            </optgroup>
+                            <optgroup label="«What Music Really İs» Study Tones">
+                                <option value="WMRI3LST">WMRİ 3-Limit (4 Harmonics) ST</option>
+                                <option value="WMRI5LST">WMRİ 5-Limit (6 Harmonics) ST</option>
+                                <option value="WMRI5Lpike">WMRİ 5-Limit (6 Harmonics) Pk</option>
+                                <option value="WMRI7LST">WMRİ 7-Limit (10 Harmonics) ST</option>
+                                <option value="WMRI11LST">WMRİ 11-Limit (12 Harmonics) ST</option>
+                                <option value="WMRI13LST">WMRİ 13-Limit (16 Harmonics) ST</option>
+                                <option value="WMRInLST">WMRİ n-Limit ("sawtooth wave") ST</option>
+                                <option value="WMRIByzantineST">WMRİ Byzantine (9 Harmonics) ST</option>
+                            </optgroup>
+                          </select>
+
+                          <label>
+                              <input id="enum" type="checkbox" name="number_or_name" value="fnord" onchange="hideRevealNames();noPreset();">
+                              <span class="label-body">Enumerate Scale</span>
+                          </label>
+
+                          <label>
+                              <input id="spectrum_colors" type="checkbox" name="spectrum_colors" value="fnord" onchange="hideRevealColors();noPreset();">
+                              <span class="label-body">Use Spectrum Colors</span>
+                          </label>
+
+                          <label>
+                              <input id="no_labels" type="checkbox" name="no_labels" value="fnord" onchange="hideRevealEnum();noPreset();">
+                              <span class="label-body">Blank Keys (No labels)</span>
+                          </label>
+						</div>
+					</div>
+				</div>
+
+                <div class="row">
+                    <img alt="" src="1x1.png" style="margin: 1.5%">
+                </div>
+
+				<div class="row">
+					<div class="one-half column pushrow-mobile">
+						<label>Scale (<a href="http://www.huygens-fokker.org/scala/scl_format.html" target="new" style="color: red; text-decoration: none;">Scala format</a>)</label>
+						<textarea id="scale" onchange="changeURL();noPreset();" class="iosscrollable u-full-width" rows="12">! 31-ed2 Bosanquet Wilson Terpstra.scl
+! 31-tone equal tempered scale consisting of 31 sonically equal divisions per frequency halving/doubling in standard meantone notation, mapped on a Bosanquet / Wilson / Terpstra layout.
+!
+Terpstra Keyboard WebApp | 31-ed2 Bosanquet / Wilson / Terpstra
+31
+!
+38.70968
+77.41935
+116.12903
+154.83871
+193.54839
+232.25806
+270.96774
+309.67742
+348.38710
+387.09677
+425.80645
+464.51613
+503.22581
+541.93548
+580.64516
+619.35484
+658.06452
+696.77419
+735.48387
+774.19355
+812.90323
+851.61290
+890.32258
+929.03226
+967.74194
+1006.45161
+1045.16129
+1083.87097
+1122.58065
+1161.29032
+1200.00000</textarea>
+                  </div>
+
+                  <div class="one-half column thincol-parent">
+                    <div class="u-half-width rpad">
+                      <label id="numberLabel" style="display: block;">Steps To Equivalence Interval</label>
+                      <input id="equivSteps" type="number" min="1" max="200" value="" onchange="changeURL();noPreset();" style="display: block;" class="u-full-width">
+
+                      <label id="namesLabel" style="display: none;">Note Names</label>
+                      <textarea id="names" onchange="changeURL();noPreset();" class="iosscrollable u-full-width" rows="12" style="display: none;">C
+D♭♭
+C♯
+D♭
+C×
+D
+E♭♭
+D♯
+E♭
+D×
+E
+F♭
+E♯
+F
+G♭♭
+F♯
+G♭
+F×
+G
+A♭♭
+G♯
+A♭
+G×
+A
+B♭♭
+A♯
+B♭
+A×
+B
+C♭
+B♯</textarea>
+					</div>
+
+                    <div class="u-half-width">
+                        <label id="fundamental_colorLabel" style="display: none;">Fundamental Color</label>
+                        <input type="text" id="fundamental_color" style="display: none;" class="jscolor u-full-width" value="#55ff55">
+
+                        <label id="note_colorsLabel">Color Layout</label>
+                        <textarea id="note_colors" onchange="changeURL();noPreset();" class="iosscrollable u-full-width" rows="12">ffffff
+ff9f41
+cfcfcf
+bbaa93
+7b7b7b
+ffffff
+ff9f41
+cfcfcf
+bbaa93
+7b7b7b
+ffffff
+bbaa93
+cfcfcf
+ffffff
+ff9f41
+cfcfcf
+bbaa93
+7b7b7b
+ffffff
+ff9f41
+cfcfcf
+bbaa93
+7b7b7b
+ffffff
+ff9f41
+cfcfcf
+bbaa93
+7b7b7b
+ffffff
+bbaa93
+cfcfcf
+ffffff</textarea>
+                    </div>
+                  </div>
+				</div>
+				<br>
+				<input name="Submit" type="submit" value="Make me a microtonal keyboard!">
+            </form>
+        </div>
+
+		<div class="container">
+          Designed by <a href="http://siementerpstra.com/" target="new">Siemen Terpstra</a> in the late ’80’s. WebApp developed by <a href="http://jamesfenn.com/" target="new">James Fenn</a> with additions and modifications by <a href="http://brandlew.com/" target="new">Brandon Lewis</a>, <a href="http://whatmusicreallyis.com/" title="What Music Really İs" target="new">Bo Constantinsen</a> and <a href="https://sites.google.com/site/wangchengu/" target="new">Chengu Wang</a>. Credits to Scott Thompson and <a href="http://ozanyarman.com/" target="new">Dr Ozan Yarman</a> for contributing samples. Current version 1.2 (Jan. 2015 — Jan. 2017), released as Free/Libre and Open Source Software under <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="new">GPL-3.0</a>. <a href="https://github.com/wcgbg/terpstrakeyboard/" target="new">Fork me on GitHub!</a>
+		</div>
+	</div>
+
+	<canvas id="keyboard" tabindex="1" width="1897" height="936" style="display: none; height: 936px; width: 1897px; margin-top: -468px; margin-left: -948.5px;"></canvas>
+
+	<img alt="Return to keyboard design" src="back.png" id="backButton" onclick="back()" style="display: none;">
+
+	<script src="keys.js"></script>
+
+</body></html>
